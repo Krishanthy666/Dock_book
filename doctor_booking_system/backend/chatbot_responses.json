@@ -1,0 +1,77 @@
+{
+    "greeting": [
+        "Hello! I'm your eDocBook AI Assistant. How can I help you today? \ud83d\ude0a",
+        "Hi there! Need help with bookings, symptoms, or payments? Just ask!",
+        "Hey! I'm here to help you navigate eDocBook. What can I do for you?"
+    ],
+    "about": [
+        "eDocBook is an intelligent healthcare platform that uses machine learning to analyze your symptoms, match you with top-rated specialists, and let you book appointments \u2014 all online!",
+        "We're eDocBook \u2014 a modern health portal that removes the guesswork from healthcare. Describe your symptoms, get an AI diagnosis, and book the right doctor in minutes."
+    ],
+    "how_works": [
+        "It's simple! 1\ufe0f\u20e3 Go to the Symptom Checker. 2\ufe0f\u20e3 Describe how you feel. 3\ufe0f\u20e3 Our AI predicts your condition & recommends a specialist. 4\ufe0f\u20e3 Choose a doctor & pay online. Done!",
+        "Head to the Symptom Checker, type your symptoms, and our ML model will predict the condition, show NHS links, and display matching doctors for you to book."
+    ],
+    "booking": [
+        "To book, first run a symptom analysis in the Symptom Checker. We'll show matching specialists. Click 'Book Appointment' on any doctor, complete the secure payment, and you're done!",
+        "Once our AI recommends a specialty, matching doctors appear. Click 'Book', enter your card details for the secure payment, and your appointment is confirmed with an email receipt!"
+    ],
+    "payment": [
+        "We use Stripe for secure online payments \ud83d\udcb3. Your card details are encrypted and never stored on our servers. You'll get a confirmation email after every successful payment.",
+        "Payments are processed securely via Stripe. We accept all major credit and debit cards. You'll receive a booking confirmation email right after payment succeeds.",
+        "If your payment failed, please check your card details and try again. If you were charged but the booking failed, the amount will be refunded automatically within 5-7 business days."
+    ],
+    "cost": [
+        "Registration and symptom checking are completely FREE! Doctor consultation fees vary (typically $90\u2013$250) and are shown on each doctor's profile before you book.",
+        "Symptom assessments are 100% free. Doctor fees are listed on their cards \u2014 you'll see the exact cost before confirming your booking."
+    ],
+    "cancel_appointment": [
+        "To cancel an appointment, please go to your Dashboard and contact our support team via Live Chat. Cancellations made 24+ hours in advance are fully refunded.",
+        "Refund policy: Cancellations 24+ hours before the appointment receive a full refund. Less than 24 hours may incur a small fee. Contact our live chat support for help."
+    ],
+    "symptoms_general": [
+        "Please use the Symptom Checker on the main app page \u2014 describe your symptoms in detail (e.g., 'I have a severe headache, nausea, and light sensitivity') for the best AI analysis.",
+        "I can't provide a direct diagnosis, but our AI symptom checker can! Head to the Symptom Checker page, describe what you're feeling, and get an instant prediction with NHS-verified advice."
+    ],
+    "live_chat": [
+        "I'll connect you to our live support team! \ud83d\udcac Please click the 'Live Chat' button on your Dashboard to start a real-time conversation with our support staff.",
+        "Need a human? Head to your Dashboard and click 'Live Chat with Support' to chat with our team in real-time via our secure messaging system."
+    ],
+    "doctor_availability": [
+        "Doctor availability is shown in real-time on the Symptom Checker page after your analysis. All listed doctors are currently accepting appointments.",
+        "You can check available doctors on the Symptom Checker page. All doctors listed there are available for booking right now."
+    ],
+    "prescription": [
+        "Prescriptions are handled directly by the doctors during or after your consultation. Our platform facilitates the booking \u2014 prescription details will be shared by the doctor.",
+        "Our doctors can provide digital prescriptions after your consultation. Please book an appointment first and discuss your medication needs with the doctor."
+    ],
+    "follow_up": [
+        "To schedule a follow-up, go to the Symptom Checker, search for the same specialist, and book again. Mention in your symptoms that this is a follow-up visit.",
+        "For follow-up appointments, simply book again from the Symptom Checker. You can request the same doctor by looking for their name in the specialist list."
+    ],
+    "test_results": [
+        "Test results and health records are managed by your doctor's practice. Please contact them directly or check your Dashboard for any updates shared by your care team.",
+        "Currently, lab results are shared by your doctor directly. Future updates to eDocBook will include a health records section in your Dashboard."
+    ],
+    "insurance": [
+        "eDocBook accepts direct online payments via Stripe. Insurance reimbursements depend on your provider \u2014 we can supply a detailed receipt for your insurance claim.",
+        "We currently process payments directly. Please check with your insurance provider about reimbursement \u2014 we'll email you a full payment receipt you can submit."
+    ],
+    "privacy": [
+        "Your privacy is our top priority \ud83d\udd12. Your data is encrypted, never sold to third parties, and used only to improve your healthcare experience. See our full Privacy Policy on the site.",
+        "We comply with GDPR and data protection laws. Your medical data is securely stored and only accessible by you and your assigned doctors. We never sell personal data."
+    ],
+    "emergency": [
+        "\u26a0\ufe0f If this is a medical emergency, please call emergency services IMMEDIATELY \u2014 999 (UK) or 911 (US). This AI assistant cannot provide emergency medical care.",
+        "\ud83d\udea8 EMERGENCY: Please call 999 (UK) or 911 (US) RIGHT NOW. Do not wait \u2014 get to your nearest A&E or call an ambulance immediately. eDocBook is not an emergency service."
+    ],
+    "thanks": [
+        "You're very welcome! Let me know if you need anything else. \ud83d\ude0a",
+        "Happy to help! Have a wonderful and healthy day! \ud83c\udf1f",
+        "Anytime! Stay safe and take care of yourself. \ud83d\udc99"
+    ],
+    "fallback": [
+        "I'm not sure I understand. I can help with: bookings, payments, symptoms, cancellations, doctor availability, or live chat support. Could you rephrase?",
+        "Sorry, I didn't quite catch that. Try asking about 'how to book a doctor', 'payment methods', 'how to cancel', or 'talk to a human'."
+    ]
+}

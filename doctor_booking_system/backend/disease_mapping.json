@@ -1,0 +1,26 @@
+{
+    "disease_to_specialist": {
+        "Flu": "General Practitioner",
+        "Common Cold": "General Practitioner",
+        "COVID-19": "Pulmonologist",
+        "Migraine": "Neurologist",
+        "Asthma": "Pulmonologist",
+        "Diabetes": "Endocrinologist",
+        "Hypertension": "Cardiologist",
+        "Food Poisoning": "Gastroenterologist",
+        "Kidney Infection": "Nephrologist",
+        "Arthritis": "Rheumatologist"
+    },
+    "disease_to_advice": {
+        "Flu": "Rest, drink plenty of fluids, and consider over-the-counter pain relievers.",
+        "Common Cold": "Stay hydrated, rest, and use throat lozenges if needed.",
+        "COVID-19": "Isolate yourself, wear a mask, and seek emergency care if you have trouble breathing.",
+        "Migraine": "Rest in a quiet, dark room. Apply a cold compress to your head.",
+        "Asthma": "Use your prescribed inhaler and avoid known triggers.",
+        "Diabetes": "Monitor your blood sugar levels and adhere to your dietary plan.",
+        "Hypertension": "Reduce sodium intake, manage stress, and monitor your blood pressure.",
+        "Food Poisoning": "Stay hydrated with water or electrolyte solutions. Eat bland foods.",
+        "Kidney Infection": "Drink plenty of water and complete any prescribed antibiotic courses.",
+        "Arthritis": "Engage in gentle exercises and use hot/cold therapy for joint pain."
+    }
+}

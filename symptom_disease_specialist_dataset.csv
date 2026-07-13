@@ -1,0 +1,511 @@
+symptoms,disease,specialist
+fever cough body pain fatigue,Flu,General Practitioner
+i have fever and body pain since 2 days,Flu,General Practitioner
+fever nd cough feeling weak,Flu,General Practitioner
+chills muscle ache cough sore throat,Flu,General Practitioner
+running nose fever body pain tired,Flu,General Practitioner
+headache fever and bad cough,Flu,General Practitioner
+terrible body ache with high fever,Flu,General Practitioner
+fever chills and extreme fatigue,Flu,General Practitioner
+coughing a lot with fever and chills,Flu,General Practitioner
+so tired body hurts and fever,Flu,General Practitioner
+fever and sore throat since yesterday,Flu,General Practitioner
+dry cough fever body pain,Flu,General Practitioner
+sudden fever chills fatigue,Flu,General Practitioner
+my body hurts i have fever and cough,Flu,General Practitioner
+exhausted with fever and dry cough,Flu,General Practitioner
+bad body ache fever chills,Flu,General Practitioner
+coughing nd fever since morning,Flu,General Practitioner
+weakness muscle pain fever,Flu,General Practitioner
+sore throat cough fever fatigue,Flu,General Practitioner
+fever with body ache and tiredness,Flu,General Practitioner
+severe fatigue fever muscle pain,Flu,General Practitioner
+chills fever bad cough,Flu,General Practitioner
+body pain cough fever tired,Flu,General Practitioner
+feeling hot chills body ache,Flu,General Practitioner
+fever and cough since last night,Flu,General Practitioner
+dry cough muscle pain fever fatigue,Flu,General Practitioner
+fever chills dry cough tired,Flu,General Practitioner
+so weak with fever and body pain,Flu,General Practitioner
+cough fever sore throat chills,Flu,General Practitioner
+fever muscle ache running nose,Flu,General Practitioner
+flu symptoms fever cough body ache,Flu,General Practitioner
+heavy cough fever fatigue,Flu,General Practitioner
+chills fever weakness,Flu,General Practitioner
+cough nd body pain with fever,Flu,General Practitioner
+fever fatigue sore throat,Flu,General Practitioner
+terrible cough fever chills,Flu,General Practitioner
+body hurts fever tired,Flu,General Practitioner
+high fever chills body pain,Flu,General Practitioner
+coughing fever fatigued,Flu,General Practitioner
+fever chills muscle pain,Flu,General Practitioner
+dry cough fever tired,Flu,General Practitioner
+body ache fever fatigue,Flu,General Practitioner
+fever and dry cough since 2 days,Flu,General Practitioner
+chills nd fever with body pain,Flu,General Practitioner
+cough sore throat fever fatigue,Flu,General Practitioner
+exhausted fever muscle ache,Flu,General Practitioner
+coughing fever body pain,Flu,General Practitioner
+fever chills tired all over,Flu,General Practitioner
+body hurts fever cough,Flu,General Practitioner
+weak fever chills cough,Flu,General Practitioner
+cough fever sore throat tired,Flu,General Practitioner
+fever body ache fatigue,Flu,General Practitioner
+chills fever cough weakness,Flu,General Practitioner
+fever dry cough body pain,Flu,General Practitioner
+muscle pain fever fatigue,Flu,General Practitioner
+cough and fever since yesterday,Flu,General Practitioner
+fever chills body ache tired,Flu,General Practitioner
+sore throat fever cough,Flu,General Practitioner
+fever fatigue muscle pain,Flu,General Practitioner
+cough fever chills weakness,Flu,General Practitioner
+running nose sore throat sneezing,Common Cold,General Practitioner
+i have a runny nose and sneezing since yesterday,Common Cold,General Practitioner
+sneezing nd watery eyes runny nose,Common Cold,General Practitioner
+mild cough runny nose sore throat,Common Cold,General Practitioner
+congestion sore throat sneezing,Common Cold,General Practitioner
+stuffy nose mild cough sore throat,Common Cold,General Practitioner
+sneezing and running nose since 2 days,Common Cold,General Practitioner
+sore throat running nose block nose,Common Cold,General Practitioner
+mild fever runny nose sneezing,Common Cold,General Practitioner
+stuffy nose runny nose sore throat,Common Cold,General Practitioner
+sneezing a lot with runny nose,Common Cold,General Practitioner
+cough and running nose no fever,Common Cold,General Practitioner
+blocked nose sore throat mild cough,Common Cold,General Practitioner
+running nose sneezing nd cough,Common Cold,General Practitioner
+sore throat block nose sneezing,Common Cold,General Practitioner
+mild cough sneezing running nose,Common Cold,General Practitioner
+congestion runny nose sore throat,Common Cold,General Practitioner
+running nose sneezing since morning,Common Cold,General Practitioner
+stuffy nose sore throat mild fever,Common Cold,General Practitioner
+sneezing runny nose tired,Common Cold,General Practitioner
+watery eyes sneezing running nose,Common Cold,General Practitioner
+sore throat running nose sneezing,Common Cold,General Practitioner
+stuffy nose mild cough block nose,Common Cold,General Practitioner
+runny nose sneezing sore throat,Common Cold,General Practitioner
+mild cough and sneezing since yesterday,Common Cold,General Practitioner
+blocked nose running nose sore throat,Common Cold,General Practitioner
+sneezing nd runny nose feeling tired,Common Cold,General Practitioner
+sore throat congestion runny nose,Common Cold,General Practitioner
+running nose block nose mild cough,Common Cold,General Practitioner
+sneezing running nose stuffy nose,Common Cold,General Practitioner
+mild fever sore throat running nose,Common Cold,General Practitioner
+stuffy nose sneezing runny nose,Common Cold,General Practitioner
+sore throat and running nose since 2 days,Common Cold,General Practitioner
+sneezing cough block nose,Common Cold,General Practitioner
+runny nose sore throat congestion,Common Cold,General Practitioner
+stuffy nose sneezing mild cough,Common Cold,General Practitioner
+running nose nd sneezing a lot,Common Cold,General Practitioner
+sore throat runny nose block nose,Common Cold,General Practitioner
+mild cough sneezing running nose,Common Cold,General Practitioner
+congestion sore throat sneezing,Common Cold,General Practitioner
+stuffy nose runny nose mild fever,Common Cold,General Practitioner
+sneezing running nose sore throat,Common Cold,General Practitioner
+running nose block nose sneezing,Common Cold,General Practitioner
+mild cough running nose congestion,Common Cold,General Practitioner
+sore throat sneezing block nose,Common Cold,General Practitioner
+running nose nd sneezing since morning,Common Cold,General Practitioner
+stuffy nose sore throat running nose,Common Cold,General Practitioner
+sneezing runny nose watery eyes,Common Cold,General Practitioner
+mild cough running nose sore throat,Common Cold,General Practitioner
+congestion block nose sneezing,Common Cold,General Practitioner
+fever cough shortness of breath loss of taste,COVID-19,Pulmonologist
+i lost my smell and have fever and cough,COVID-19,Pulmonologist
+shortness of breath fever loss of taste nd smell,COVID-19,Pulmonologist
+dry cough fever loss of smell fatigue,COVID-19,Pulmonologist
+loss of taste fever shortness of breath,COVID-19,Pulmonologist
+fever dry cough loss of smell since 2 days,COVID-19,Pulmonologist
+shortness of breath fatigue fever cough,COVID-19,Pulmonologist
+loss of taste and smell with dry cough,COVID-19,Pulmonologist
+fever cough shortness of breath tired,COVID-19,Pulmonologist
+loss of smell dry cough fever fatigue,COVID-19,Pulmonologist
+cannot breathe well fever loss of taste,COVID-19,Pulmonologist
+fever cough loss of taste nd smell,COVID-19,Pulmonologist
+shortness of breath dry cough fever,COVID-19,Pulmonologist
+loss of smell fever cough weakness,COVID-19,Pulmonologist
+dry cough loss of taste shortness of breath,COVID-19,Pulmonologist
+fever shortness of breath loss of smell,COVID-19,Pulmonologist
+cough fever loss of taste fatigue,COVID-19,Pulmonologist
+shortness of breath nd loss of smell,COVID-19,Pulmonologist
+fever dry cough shortness of breath,COVID-19,Pulmonologist
+loss of taste smell fever cough,COVID-19,Pulmonologist
+shortness of breath fatigue loss of taste,COVID-19,Pulmonologist
+fever cough loss of smell since yesterday,COVID-19,Pulmonologist
+dry cough shortness of breath fatigue,COVID-19,Pulmonologist
+loss of taste and smell with fever,COVID-19,Pulmonologist
+shortness of breath fever dry cough,COVID-19,Pulmonologist
+fever loss of smell cough tired,COVID-19,Pulmonologist
+loss of taste shortness of breath fever,COVID-19,Pulmonologist
+dry cough fever loss of taste smell,COVID-19,Pulmonologist
+shortness of breath fatigue cough fever,COVID-19,Pulmonologist
+loss of smell and taste with dry cough,COVID-19,Pulmonologist
+fever shortness of breath loss of taste,COVID-19,Pulmonologist
+cough loss of smell fever fatigue,COVID-19,Pulmonologist
+shortness of breath dry cough loss of taste,COVID-19,Pulmonologist
+fever loss of taste smell fatigue,COVID-19,Pulmonologist
+shortness of breath cough fever tired,COVID-19,Pulmonologist
+loss of smell fever dry cough,COVID-19,Pulmonologist
+loss of taste shortness of breath fatigue,COVID-19,Pulmonologist
+fever cough loss of taste smell nd breath short,COVID-19,Pulmonologist
+dry cough fever shortness of breath loss of smell,COVID-19,Pulmonologist
+loss of taste smell fever fatigue,COVID-19,Pulmonologist
+shortness of breath cough loss of smell,COVID-19,Pulmonologist
+fever dry cough loss of taste fatigue,COVID-19,Pulmonologist
+shortness of breath fever loss of smell,COVID-19,Pulmonologist
+loss of taste and smell with fever cough,COVID-19,Pulmonologist
+dry cough shortness of breath fever tired,COVID-19,Pulmonologist
+loss of smell fever cough weakness,COVID-19,Pulmonologist
+shortness of breath loss of taste dry cough,COVID-19,Pulmonologist
+fever cough loss of smell fatigue,COVID-19,Pulmonologist
+shortness of breath fever loss of taste,COVID-19,Pulmonologist
+loss of smell and taste with dry cough fever,COVID-19,Pulmonologist
+headache nausea sensitivity to light,Migraine,Neurologist
+i have a severe headache and feel like vomiting,Migraine,Neurologist
+headache nd nausea sensitive to sound,Migraine,Neurologist
+throbbing headache nausea light sensitivity,Migraine,Neurologist
+bad headache sensitive to light and sound,Migraine,Neurologist
+headache and nausea since morning,Migraine,Neurologist
+severe throbbing headache nausea dizziness,Migraine,Neurologist
+headache sensitive to light vomiting,Migraine,Neurologist
+one sided headache nausea sensitivity to sound,Migraine,Neurologist
+terrible headache feel sick in stomach,Migraine,Neurologist
+headache nausea dizziness since yesterday,Migraine,Neurologist
+throbbing headache nd sensitivity to light,Migraine,Neurologist
+bad headache nausea vomiting,Migraine,Neurologist
+headache sensitive to light and sound nausea,Migraine,Neurologist
+severe headache throbbing pain dizziness,Migraine,Neurologist
+headache and nausea sensitive to light,Migraine,Neurologist
+throbbing headache sensitive to sound vomiting,Migraine,Neurologist
+headache nausea fatigue since 2 days,Migraine,Neurologist
+bad headache sensitive to light nausea,Migraine,Neurologist
+headache throbbing pain sensitive to sound,Migraine,Neurologist
+severe headache nausea vomiting dizziness,Migraine,Neurologist
+headache nd sensitive to light sound,Migraine,Neurologist
+throbbing headache nausea since morning,Migraine,Neurologist
+headache sensitive to light vomiting dizziness,Migraine,Neurologist
+bad headache nausea sensitivity to sound,Migraine,Neurologist
+headache throbbing pain sensitive to light,Migraine,Neurologist
+severe headache nausea vomiting fatigue,Migraine,Neurologist
+headache sensitive to sound nd light,Migraine,Neurologist
+throbbing headache nausea vomiting dizziness,Migraine,Neurologist
+headache sensitive to light since yesterday,Migraine,Neurologist
+bad headache nausea dizziness fatigue,Migraine,Neurologist
+headache throbbing pain sensitive to sound nausea,Migraine,Neurologist
+severe headache vomiting sensitivity to light,Migraine,Neurologist
+headache nd nausea sensitive to sound light,Migraine,Neurologist
+throbbing headache sensitive to light dizziness,Migraine,Neurologist
+headache nausea vomiting since morning,Migraine,Neurologist
+bad headache sensitive to sound nausea,Migraine,Neurologist
+headache throbbing pain nausea fatigue,Migraine,Neurologist
+severe headache sensitivity to light sound vomiting,Migraine,Neurologist
+headache nd nausea dizziness since yesterday,Migraine,Neurologist
+throbbing headache nausea sensitive to light,Migraine,Neurologist
+headache sensitive to sound vomiting dizziness,Migraine,Neurologist
+bad headache nausea vomiting fatigue,Migraine,Neurologist
+headache throbbing pain sensitive to light sound,Migraine,Neurologist
+severe headache nausea dizziness fatigue,Migraine,Neurologist
+headache nd sensitivity to light vomiting,Migraine,Neurologist
+throbbing headache nausea sensitivity to sound,Migraine,Neurologist
+headache sensitive to light nausea dizziness,Migraine,Neurologist
+bad headache vomiting sensitivity to sound,Migraine,Neurologist
+headache throbbing pain nausea vomiting,Migraine,Neurologist
+shortness of breath wheezing cough,Asthma,Pulmonologist
+i am wheezing and have shortness of breath,Asthma,Pulmonologist
+shortness of breath nd tightness in chest,Asthma,Pulmonologist
+wheezing cough shortness of breath chest tightness,Asthma,Pulmonologist
+cough and wheezing hard to breathe,Asthma,Pulmonologist
+shortness of breath since yesterday wheezing,Asthma,Pulmonologist
+chest tightness wheezing cough shortness of breath,Asthma,Pulmonologist
+wheezing and shortness of breath night cough,Asthma,Pulmonologist
+shortness of breath chest pain wheezing,Asthma,Pulmonologist
+cough wheezing hard to breathe nd chest tight,Asthma,Pulmonologist
+shortness of breath and wheezing since morning,Asthma,Pulmonologist
+chest tightness cough shortness of breath,Asthma,Pulmonologist
+wheezing dry cough shortness of breath,Asthma,Pulmonologist
+shortness of breath chest tightness wheezing,Asthma,Pulmonologist
+cough and wheezing since 2 days,Asthma,Pulmonologist
+wheezing shortness of breath chest pain,Asthma,Pulmonologist
+shortness of breath cough chest tightness,Asthma,Pulmonologist
+wheezing nd shortness of breath dry cough,Asthma,Pulmonologist
+chest tightness wheezing shortness of breath,Asthma,Pulmonologist
+cough wheezing hard to breathe since yesterday,Asthma,Pulmonologist
+shortness of breath chest pain cough,Asthma,Pulmonologist
+wheezing cough chest tightness shortness of breath,Asthma,Pulmonologist
+shortness of breath and wheezing a lot,Asthma,Pulmonologist
+chest tightness dry cough wheezing,Asthma,Pulmonologist
+wheezing shortness of breath chest tightness,Asthma,Pulmonologist
+cough and shortness of breath since morning,Asthma,Pulmonologist
+wheezing chest tightness cough shortness of breath,Asthma,Pulmonologist
+shortness of breath wheezing dry cough,Asthma,Pulmonologist
+chest tightness shortness of breath wheezing,Asthma,Pulmonologist
+cough wheezing chest pain hard to breathe,Asthma,Pulmonologist
+shortness of breath and wheezing since 2 days,Asthma,Pulmonologist
+chest tightness cough wheezing,Asthma,Pulmonologist
+wheezing shortness of breath dry cough chest tight,Asthma,Pulmonologist
+shortness of breath chest pain wheezing cough,Asthma,Pulmonologist
+cough and wheezing hard to breathe since night,Asthma,Pulmonologist
+wheezing nd shortness of breath chest tightness,Asthma,Pulmonologist
+chest tightness cough shortness of breath wheezing,Asthma,Pulmonologist
+shortness of breath wheezing chest pain,Asthma,Pulmonologist
+cough wheezing shortness of breath tired,Asthma,Pulmonologist
+wheezing chest tightness dry cough,Asthma,Pulmonologist
+shortness of breath and wheezing cough,Asthma,Pulmonologist
+chest tightness shortness of breath cough,Asthma,Pulmonologist
+wheezing cough shortness of breath since morning,Asthma,Pulmonologist
+shortness of breath chest tightness dry cough,Asthma,Pulmonologist
+cough and wheezing chest pain,Asthma,Pulmonologist
+wheezing shortness of breath fatigue,Asthma,Pulmonologist
+chest tightness cough wheezing shortness of breath,Asthma,Pulmonologist
+shortness of breath wheezing dry cough chest tight,Asthma,Pulmonologist
+cough wheezing shortness of breath chest pain,Asthma,Pulmonologist
+wheezing chest tightness cough fatigued,Asthma,Pulmonologist
+increased thirst frequent urination fatigue,Diabetes,Endocrinologist
+i am drinking a lot of water and urinating frequently,Diabetes,Endocrinologist
+increased thirst nd frequent urination weight loss,Diabetes,Endocrinologist
+frequent urination increased thirst blurry vision,Diabetes,Endocrinologist
+fatigue increased thirst frequent urination,Diabetes,Endocrinologist
+urinating a lot and feeling very thirsty,Diabetes,Endocrinologist
+increased thirst frequent urination weight loss tired,Diabetes,Endocrinologist
+blurry vision extreme thirst pee a lot,Diabetes,Endocrinologist
+frequent urination increased thirst weakness,Diabetes,Endocrinologist
+always thirsty peeing too much fatigue,Diabetes,Endocrinologist
+increased thirst and urinating frequently since weeks,Diabetes,Endocrinologist
+weight loss frequent urination blurry vision,Diabetes,Endocrinologist
+increased thirst nd peeing all the time,Diabetes,Endocrinologist
+fatigue blurry vision frequent urination,Diabetes,Endocrinologist
+increased thirst frequent urination slow healing,Diabetes,Endocrinologist
+dry mouth pee a lot extreme thirst,Diabetes,Endocrinologist
+frequent urination weight loss fatigue,Diabetes,Endocrinologist
+increased thirst blurry vision tired,Diabetes,Endocrinologist
+peeing frequently increased thirst weakness,Diabetes,Endocrinologist
+unexplained weight loss frequent urination thirst,Diabetes,Endocrinologist
+increased thirst frequent urination fatigue since days,Diabetes,Endocrinologist
+blurry vision increased thirst pee a lot,Diabetes,Endocrinologist
+frequent urination nd extreme thirst tired,Diabetes,Endocrinologist
+weight loss fatigue frequent urination,Diabetes,Endocrinologist
+increased thirst dry mouth peeing often,Diabetes,Endocrinologist
+frequent urination blurry vision fatigue,Diabetes,Endocrinologist
+increased thirst weight loss frequent urination,Diabetes,Endocrinologist
+peeing a lot always thirsty weak,Diabetes,Endocrinologist
+increased thirst frequent urination blurry vision tired,Diabetes,Endocrinologist
+fatigue weight loss extreme thirst,Diabetes,Endocrinologist
+frequent urination and increased thirst every hour,Diabetes,Endocrinologist
+blurry vision frequent urination dry mouth,Diabetes,Endocrinologist
+increased thirst nd weight loss fatigue,Diabetes,Endocrinologist
+peeing frequently tired thirsty,Diabetes,Endocrinologist
+increased thirst frequent urination weakness,Diabetes,Endocrinologist
+blurry vision fatigue increased thirst,Diabetes,Endocrinologist
+frequent urination weight loss extreme thirst,Diabetes,Endocrinologist
+increased thirst peeing a lot blurry vision,Diabetes,Endocrinologist
+fatigue frequent urination increased thirst dry mouth,Diabetes,Endocrinologist
+weight loss blurry vision frequent urination,Diabetes,Endocrinologist
+increased thirst and peeing frequently since morning,Diabetes,Endocrinologist
+frequent urination extreme thirst fatigue,Diabetes,Endocrinologist
+increased thirst nd blurry vision tired,Diabetes,Endocrinologist
+peeing a lot weight loss frequent urination,Diabetes,Endocrinologist
+increased thirst frequent urination fatigue weakness,Diabetes,Endocrinologist
+blurry vision frequent urination increased thirst,Diabetes,Endocrinologist
+frequent urination weight loss fatigue tired,Diabetes,Endocrinologist
+increased thirst dry mouth peeing frequently,Diabetes,Endocrinologist
+frequent urination blurry vision weight loss,Diabetes,Endocrinologist
+increased thirst frequent urination extreme fatigue,Diabetes,Endocrinologist
+headache dizziness blurry vision,Hypertension,Cardiologist
+i have a severe headache and feel dizzy,Hypertension,Cardiologist
+headache nd chest pain dizziness,Hypertension,Cardiologist
+blurry vision headache shortness of breath,Hypertension,Cardiologist
+dizziness headache ringing in ears,Hypertension,Cardiologist
+headache and dizziness since morning,Hypertension,Cardiologist
+chest pain shortness of breath headache,Hypertension,Cardiologist
+blurry vision dizziness headache tired,Hypertension,Cardiologist
+headache ringing in ears dizziness,Hypertension,Cardiologist
+severe headache nd blurry vision,Hypertension,Cardiologist
+dizziness and headache since yesterday,Hypertension,Cardiologist
+shortness of breath chest pain headache,Hypertension,Cardiologist
+blurry vision headache dizziness fatigue,Hypertension,Cardiologist
+headache chest pain dizziness,Hypertension,Cardiologist
+dizziness nd blurry vision with headache,Hypertension,Cardiologist
+headache shortness of breath ringing in ears,Hypertension,Cardiologist
+blurry vision chest pain headache,Hypertension,Cardiologist
+dizziness headache fatigue since 2 days,Hypertension,Cardiologist
+headache chest pain shortness of breath,Hypertension,Cardiologist
+blurry vision dizziness ringing in ears,Hypertension,Cardiologist
+severe headache dizziness shortness of breath,Hypertension,Cardiologist
+headache nd blurry vision dizziness,Hypertension,Cardiologist
+chest pain headache dizziness tired,Hypertension,Cardiologist
+dizziness shortness of breath blurry vision,Hypertension,Cardiologist
+headache ringing in ears chest pain,Hypertension,Cardiologist
+blurry vision headache dizziness since morning,Hypertension,Cardiologist
+shortness of breath headache dizziness,Hypertension,Cardiologist
+chest pain blurry vision headache,Hypertension,Cardiologist
+dizziness ringing in ears fatigue,Hypertension,Cardiologist
+severe headache chest pain shortness of breath,Hypertension,Cardiologist
+headache nd dizziness blurry vision,Hypertension,Cardiologist
+blurry vision chest pain dizziness,Hypertension,Cardiologist
+shortness of breath ringing in ears headache,Hypertension,Cardiologist
+dizziness headache chest pain since yesterday,Hypertension,Cardiologist
+severe headache blurry vision fatigue,Hypertension,Cardiologist
+headache chest pain ringing in ears,Hypertension,Cardiologist
+blurry vision dizziness shortness of breath,Hypertension,Cardiologist
+dizziness headache fatigue tired,Hypertension,Cardiologist
+headache nd chest pain blurry vision,Hypertension,Cardiologist
+shortness of breath dizziness ringing in ears,Hypertension,Cardiologist
+severe headache blurry vision dizziness,Hypertension,Cardiologist
+headache chest pain shortness of breath fatigue,Hypertension,Cardiologist
+blurry vision dizziness headache since days,Hypertension,Cardiologist
+dizziness ringing in ears chest pain,Hypertension,Cardiologist
+headache shortness of breath blurry vision,Hypertension,Cardiologist
+severe headache chest pain dizziness,Hypertension,Cardiologist
+headache nd blurry vision fatigue,Hypertension,Cardiologist
+dizziness shortness of breath headache,Hypertension,Cardiologist
+blurry vision chest pain ringing in ears,Hypertension,Cardiologist
+headache dizziness shortness of breath chest pain,Hypertension,Cardiologist
+nausea vomiting stomach pain diarrhea,Food Poisoning,Gastroenterologist
+i am throwing up and have bad stomach pain,Food Poisoning,Gastroenterologist
+nausea nd diarrhea with stomach cramps,Food Poisoning,Gastroenterologist
+vomiting diarrhea fever stomach pain,Food Poisoning,Gastroenterologist
+stomach pain nausea vomiting watery stool,Food Poisoning,Gastroenterologist
+nausea and vomiting since last night food,Food Poisoning,Gastroenterologist
+severe stomach pain diarrhea vomiting fever,Food Poisoning,Gastroenterologist
+throwing up with bad diarrhea and nausea,Food Poisoning,Gastroenterologist
+stomach cramps nausea vomiting diarrhea,Food Poisoning,Gastroenterologist
+nausea nd vomiting diarrhea weak,Food Poisoning,Gastroenterologist
+stomach pain and diarrhea since morning,Food Poisoning,Gastroenterologist
+vomiting nausea stomach cramps fever,Food Poisoning,Gastroenterologist
+diarrhea vomiting stomach pain fatigue,Food Poisoning,Gastroenterologist
+nausea stomach pain diarrhea vomiting,Food Poisoning,Gastroenterologist
+throwing up and bad diarrhea since 2 days,Food Poisoning,Gastroenterologist
+stomach cramps fever nausea vomiting,Food Poisoning,Gastroenterologist
+diarrhea stomach pain nausea tired,Food Poisoning,Gastroenterologist
+vomiting nd diarrhea with stomach pain,Food Poisoning,Gastroenterologist
+nausea vomiting fever diarrhea,Food Poisoning,Gastroenterologist
+stomach pain cramps vomiting diarrhea,Food Poisoning,Gastroenterologist
+severe stomach pain nausea vomiting,Food Poisoning,Gastroenterologist
+diarrhea nd vomiting since morning,Food Poisoning,Gastroenterologist
+nausea stomach cramps diarrhea fever,Food Poisoning,Gastroenterologist
+vomiting stomach pain diarrhea weak,Food Poisoning,Gastroenterologist
+stomach pain nausea vomiting diarrhea,Food Poisoning,Gastroenterologist
+throwing up and diarrhea since last night,Food Poisoning,Gastroenterologist
+stomach cramps nausea fever vomiting,Food Poisoning,Gastroenterologist
+diarrhea stomach pain vomiting fatigue,Food Poisoning,Gastroenterologist
+nausea nd diarrhea stomach cramps,Food Poisoning,Gastroenterologist
+vomiting fever diarrhea stomach pain,Food Poisoning,Gastroenterologist
+stomach pain nausea vomiting fatigue,Food Poisoning,Gastroenterologist
+diarrhea vomiting stomach cramps since yesterday,Food Poisoning,Gastroenterologist
+nausea stomach pain diarrhea fever,Food Poisoning,Gastroenterologist
+vomiting diarrhea stomach cramps weak,Food Poisoning,Gastroenterologist
+stomach pain nd throwing up nausea,Food Poisoning,Gastroenterologist
+diarrhea nausea vomiting stomach pain,Food Poisoning,Gastroenterologist
+stomach cramps vomiting diarrhea fever,Food Poisoning,Gastroenterologist
+nausea diarrhea stomach pain fatigue,Food Poisoning,Gastroenterologist
+vomiting nd diarrhea stomach cramps,Food Poisoning,Gastroenterologist
+stomach pain nausea fever diarrhea,Food Poisoning,Gastroenterologist
+diarrhea vomiting stomach pain weakness,Food Poisoning,Gastroenterologist
+nausea stomach cramps vomiting since morning,Food Poisoning,Gastroenterologist
+vomiting diarrhea fever stomach pain tired,Food Poisoning,Gastroenterologist
+stomach pain nausea diarrhea vomiting,Food Poisoning,Gastroenterologist
+throwing up and diarrhea stomach cramps,Food Poisoning,Gastroenterologist
+stomach cramps nausea vomiting fever,Food Poisoning,Gastroenterologist
+diarrhea stomach pain vomiting weakness,Food Poisoning,Gastroenterologist
+nausea nd vomiting diarrhea fever,Food Poisoning,Gastroenterologist
+stomach pain diarrhea nausea vomiting,Food Poisoning,Gastroenterologist
+vomiting stomach cramps diarrhea fatigue,Food Poisoning,Gastroenterologist
+fever back pain painful urination nausea,Kidney Infection,Nephrologist
+i have a bad back pain and painful urination,Kidney Infection,Nephrologist
+fever nd frequent painful urination back pain,Kidney Infection,Nephrologist
+back pain chills painful urination nausea,Kidney Infection,Nephrologist
+painful urination fever lower back pain vomiting,Kidney Infection,Nephrologist
+fever and painful urination since yesterday,Kidney Infection,Nephrologist
+severe back pain chills fever painful urination,Kidney Infection,Nephrologist
+painful urination nausea vomiting back pain,Kidney Infection,Nephrologist
+fever back pain burning urination chills,Kidney Infection,Nephrologist
+painful urination nd back pain with fever,Kidney Infection,Nephrologist
+back pain and fever since morning urination hurts,Kidney Infection,Nephrologist
+painful urination chills nausea back pain,Kidney Infection,Nephrologist
+fever lower back pain painful urination,Kidney Infection,Nephrologist
+back pain nausea vomiting painful urination,Kidney Infection,Nephrologist
+burning urination fever chills back pain,Kidney Infection,Nephrologist
+painful urination nd lower back pain fatigue,Kidney Infection,Nephrologist
+fever back pain nausea vomiting,Kidney Infection,Nephrologist
+chills painful urination back pain tired,Kidney Infection,Nephrologist
+lower back pain fever painful urination nausea,Kidney Infection,Nephrologist
+painful urination burning sensation back pain,Kidney Infection,Nephrologist
+severe back pain fever chills painful urination,Kidney Infection,Nephrologist
+fever nd painful urination back pain vomiting,Kidney Infection,Nephrologist
+back pain chills nausea painful urination,Kidney Infection,Nephrologist
+painful urination fever lower back pain tired,Kidney Infection,Nephrologist
+burning urination back pain nausea vomiting,Kidney Infection,Nephrologist
+fever and back pain since 2 days hurts to pee,Kidney Infection,Nephrologist
+chills fever painful urination back pain,Kidney Infection,Nephrologist
+painful urination lower back pain nausea,Kidney Infection,Nephrologist
+back pain fever burning urination chills,Kidney Infection,Nephrologist
+fever nd back pain painful urination nausea,Kidney Infection,Nephrologist
+painful urination chills back pain vomiting,Kidney Infection,Nephrologist
+lower back pain fever nausea painful urination,Kidney Infection,Nephrologist
+burning urination back pain fever fatigue,Kidney Infection,Nephrologist
+fever painful urination back pain chills,Kidney Infection,Nephrologist
+back pain nd nausea painful urination fever,Kidney Infection,Nephrologist
+painful urination lower back pain fever chills,Kidney Infection,Nephrologist
+chills nausea vomiting back pain painful urination,Kidney Infection,Nephrologist
+fever burning urination back pain tired,Kidney Infection,Nephrologist
+back pain painful urination fever nausea,Kidney Infection,Nephrologist
+painful urination nd back pain chills fever,Kidney Infection,Nephrologist
+lower back pain fever painful urination vomiting,Kidney Infection,Nephrologist
+burning urination chills nausea back pain,Kidney Infection,Nephrologist
+fever back pain painful urination weakness,Kidney Infection,Nephrologist
+painful urination lower back pain nausea fever,Kidney Infection,Nephrologist
+back pain fever chills painful urination,Kidney Infection,Nephrologist
+fever nd painful urination back pain nausea,Kidney Infection,Nephrologist
+painful urination chills back pain fatigue,Kidney Infection,Nephrologist
+lower back pain burning urination fever,Kidney Infection,Nephrologist
+back pain nausea vomiting painful urination fever,Kidney Infection,Nephrologist
+fever painful urination back pain chills tired,Kidney Infection,Nephrologist
+joint pain stiffness swelling flexibility loss,Arthritis,Rheumatologist
+my knees hurt and are very stiff in the morning,Arthritis,Rheumatologist
+joint pain nd swelling in fingers stiffness,Arthritis,Rheumatologist
+stiffness joint pain swelling hard to move,Arthritis,Rheumatologist
+joint swelling pain stiffness in hands,Arthritis,Rheumatologist
+joint pain and stiffness since few weeks,Arthritis,Rheumatologist
+severe joint pain swelling morning stiffness,Arthritis,Rheumatologist
+stiffness in joints swelling pain fatigue,Arthritis,Rheumatologist
+joint pain loss of flexibility swelling,Arthritis,Rheumatologist
+joint stiffness nd painful movement,Arthritis,Rheumatologist
+joint pain and swelling since morning stiff,Arthritis,Rheumatologist
+stiffness joint pain loss of flexibility,Arthritis,Rheumatologist
+joint swelling stiffness pain in knees,Arthritis,Rheumatologist
+painful joints stiffness swelling tired,Arthritis,Rheumatologist
+loss of flexibility joint pain swelling stiffness,Arthritis,Rheumatologist
+joint stiffness nd pain in fingers swelling,Arthritis,Rheumatologist
+severe joint pain stiffness painful to walk,Arthritis,Rheumatologist
+swelling in joints stiffness pain fatigue,Arthritis,Rheumatologist
+joint pain stiffness loss of flexibility knees,Arthritis,Rheumatologist
+joint swelling pain stiffness morning,Arthritis,Rheumatologist
+stiffness and joint pain since 2 days blurry,Arthritis,Rheumatologist
+joint pain swelling stiffness in elbows,Arthritis,Rheumatologist
+loss of flexibility joint stiffness swelling pain,Arthritis,Rheumatologist
+joint pain nd stiffness morning swelling,Arthritis,Rheumatologist
+severe joint pain swelling painful joints,Arthritis,Rheumatologist
+stiffness joint pain fatigue loss of flexibility,Arthritis,Rheumatologist
+joint swelling stiffness pain in hands,Arthritis,Rheumatologist
+painful joints swelling stiffness morning,Arthritis,Rheumatologist
+loss of flexibility joint pain stiffness swelling,Arthritis,Rheumatologist
+joint stiffness nd swelling pain in knees,Arthritis,Rheumatologist
+severe joint pain stiffness in fingers,Arthritis,Rheumatologist
+swelling joint pain stiffness fatigue,Arthritis,Rheumatologist
+joint pain loss of flexibility stiffness swelling,Arthritis,Rheumatologist
+joint stiffness pain morning swelling,Arthritis,Rheumatologist
+stiffness and joint pain since weeks swelling,Arthritis,Rheumatologist
+joint pain swelling stiffness in knees hands,Arthritis,Rheumatologist
+loss of flexibility joint stiffness pain,Arthritis,Rheumatologist
+joint pain nd swelling stiffness fatigue,Arthritis,Rheumatologist
+severe joint pain stiffness loss of flexibility,Arthritis,Rheumatologist
+stiffness joint swelling pain in fingers,Arthritis,Rheumatologist
+joint pain stiffness morning swelling fatigue,Arthritis,Rheumatologist
+painful joints loss of flexibility stiffness,Arthritis,Rheumatologist
+joint stiffness swelling pain morning,Arthritis,Rheumatologist
+stiffness and joint pain swelling knees,Arthritis,Rheumatologist
+joint pain loss of flexibility swelling stiffness,Arthritis,Rheumatologist
+joint stiffness nd pain in hands swelling,Arthritis,Rheumatologist
+severe joint pain swelling stiffness fatigue,Arthritis,Rheumatologist
+stiffness joint pain swelling painful movement,Arthritis,Rheumatologist
+joint pain stiffness loss of flexibility fingers,Arthritis,Rheumatologist
+joint swelling pain stiffness fatigue morning,Arthritis,Rheumatologist

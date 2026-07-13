@@ -12,15 +12,15 @@
         "Arthritis": "Rheumatologist"
     },
     "disease_to_advice": {
-        "Flu": "Rest, drink plenty of fluids, and consider over-the-counter pain relievers.",
-        "Common Cold": "Stay hydrated, rest, and use throat lozenges if needed.",
-        "COVID-19": "Isolate yourself, wear a mask, and seek emergency care if you have trouble breathing.",
-        "Migraine": "Rest in a quiet, dark room. Apply a cold compress to your head.",
-        "Asthma": "Use your prescribed inhaler and avoid known triggers.",
-        "Diabetes": "Monitor your blood sugar levels and adhere to your dietary plan.",
-        "Hypertension": "Reduce sodium intake, manage stress, and monitor your blood pressure.",
-        "Food Poisoning": "Stay hydrated with water or electrolyte solutions. Eat bland foods.",
-        "Kidney Infection": "Drink plenty of water and complete any prescribed antibiotic courses.",
-        "Arthritis": "Engage in gentle exercises and use hot/cold therapy for joint pain."
+        "Flu": "Rest as much as possible, drink plenty of warm fluids (water, tea, broth), and consider over-the-counter pain relievers to manage fever and body aches.",
+        "Common Cold": "Stay hydrated by drinking warm water, rest your body, and use throat lozenges or saline nasal drops if needed to relieve congestion.",
+        "COVID-19": "Isolate yourself immediately in a well-ventilated room, wear a high-filtration mask, monitor your oxygen levels, and seek emergency medical care if you experience breathing difficulties.",
+        "Migraine": "Rest in a quiet, dark room, avoid screen time, apply a cold compress to your forehead or neck, and stay hydrated.",
+        "Asthma": "Use your prescribed rescue inhaler immediately, stay calm, sit upright, and remove yourself from any known triggers like dust, smoke, or pollen.",
+        "Diabetes": "Monitor your blood sugar levels regularly, adhere strictly to your low-glycemic dietary plan, stay hydrated, and take any prescribed insulin or medications.",
+        "Hypertension": "Reduce sodium intake, practice stress-management techniques (deep breathing, meditation), monitor your blood pressure daily, and avoid caffeine.",
+        "Food Poisoning": "Stay hydrated by sipping water or electrolyte solutions, avoid solid foods for a few hours, then start with bland foods (bananas, rice, toast).",
+        "Kidney Infection": "Drink plenty of water to help flush out bacteria, rest, and make sure to complete any prescribed antibiotic courses exactly as directed by your doctor.",
+        "Arthritis": "Engage in low-impact gentle exercises (swimming, walking), use warm compresses to soothe stiff joints or cold packs to reduce acute inflammation, and maintain a healthy weight."
     }
 }

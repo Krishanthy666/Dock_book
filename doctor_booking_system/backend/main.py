@@ -171,13 +171,13 @@ def send_confirmation_email(to_email: str, patient_name: str, doctor_name: str,
 class SymptomInput(BaseModel):
     symptoms: str
     lang: Optional[str] = "en"
-
 class AnalysisResult(BaseModel):
     disease: str
     disease_raw: str
     specialist: str
     specialist_translated: str
     advice: str
+    typical_symptoms: Optional[str] = ""
     nhs_url: str
 
 class BookingInput(BaseModel):
@@ -262,20 +262,22 @@ def analyze_symptoms(symptom_data: SymptomInput, db: Session = Depends(get_db)):
     
     predicted_disease = model.predict([english_symptoms])[0]
     disease_info = db.query(DiseaseInfo).filter(DiseaseInfo.name == predicted_disease).first()
-    
     if disease_info:
         specialist = disease_info.specialist
         advice = disease_info.advice
+        typical_symptoms = disease_info.typical_symptoms or ""
         nhs_url = disease_info.nhs_url
     else:
         specialist = "General Practitioner"
         advice = "Please consult a healthcare professional."
+        typical_symptoms = ""
         nhs_url = "https://www.nhs.uk/"
 
     # Translate the outputs back to user's selected language
     translated_disease = translate_from_english(predicted_disease, lang)
     translated_specialist = translate_from_english(specialist, lang)
     translated_advice = translate_from_english(advice, lang)
+    translated_typical = translate_from_english(typical_symptoms, lang)
     print(f"DEBUG: translated disease: {translated_disease}, specialist: {translated_specialist}, advice: {translated_advice}")
 
     return {
@@ -284,6 +286,7 @@ def analyze_symptoms(symptom_data: SymptomInput, db: Session = Depends(get_db)):
         "specialist": specialist,
         "specialist_translated": translated_specialist,
         "advice": translated_advice,
+        "typical_symptoms": translated_typical,
         "nhs_url": nhs_url
     }
 

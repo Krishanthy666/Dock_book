@@ -55,6 +55,7 @@ class DiseaseInfo(Base):
     name = Column(String, unique=True, index=True)
     specialist = Column(String)
     advice = Column(String)
+    typical_symptoms = Column(String, nullable=True)
     nhs_url = Column(String)
 
 class ChannelPost(Base):
@@ -123,16 +124,19 @@ def init_db():
                 data = json.load(f)
                 disease_to_specialist = data.get("disease_to_specialist", {})
                 disease_to_advice = data.get("disease_to_advice", {})
+                disease_to_typical_symptoms = data.get("disease_to_typical_symptoms", {})
                 
                 disease_records = []
                 for disease, specialist in disease_to_specialist.items():
                     advice = disease_to_advice.get(disease, "Please consult a doctor.")
+                    typical = disease_to_typical_symptoms.get(disease, "")
                     nhs_url = f"https://www.nhs.uk/conditions/{disease.lower().replace(' ', '-')}/"
                     
                     record = DiseaseInfo(
                         name=disease,
                         specialist=specialist,
                         advice=advice,
+                        typical_symptoms=typical,
                         nhs_url=nhs_url
                     )
                     disease_records.append(record)

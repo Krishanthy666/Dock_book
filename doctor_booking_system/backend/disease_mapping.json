@@ -22,5 +22,17 @@
         "Food Poisoning": "Drink plenty of fluids (water, diluted juice, or oral rehydration solutions) in small, frequent sips to replace lost fluids and electrolytes. Avoid solid food for the first few hours until your stomach settles. When ready, eat bland, low-fat foods (such as bananas, plain white rice, applesauce, or toast). Avoid dairy, caffeine, alcohol, and spicy foods.",
         "Kidney Infection": "Drink plenty of water to help flush bacteria out of your kidneys and urinary tract. Get plenty of bed rest to help your body recover. Make sure to complete the entire course of prescribed antibiotics, even if you start feeling better sooner. Avoid holding your urine, and apply a warm heating pad to your back or abdomen to ease pain.",
         "Arthritis": "Engage in regular low-impact exercises such as swimming, cycling, or walking to keep joints flexible. Apply warm compresses or take a warm bath to soothe stiff joints, or use cold packs to reduce swelling and acute pain. Maintain a healthy body weight to reduce stress on weight-bearing joints. Consult a physical therapist for a tailored exercise routine."
+    },
+    "disease_to_typical_symptoms": {
+        "Flu": "High fever, chills, body aches, fatigue, dry cough, sore throat, runny nose.",
+        "Common Cold": "Runny or stuffy nose, sneezing, mild sore throat, low-grade cough, mild headache.",
+        "COVID-19": "Fever, dry cough, shortness of breath, loss of taste or smell, extreme fatigue, body aches.",
+        "Migraine": "Severe throbbing headache, sensitivity to light/sound, nausea, vomiting, visual aura.",
+        "Asthma": "Shortness of breath, wheezing, coughing (especially at night), chest tightness.",
+        "Diabetes": "Increased thirst, frequent urination, extreme hunger, unexplained weight loss, fatigue, blurry vision.",
+        "Hypertension": "Often asymptomatic (silent killer), severe headaches, chest pain, dizziness, shortness of breath.",
+        "Food Poisoning": "Nausea, vomiting, watery diarrhea, abdominal cramps, fever, loss of appetite.",
+        "Kidney Infection": "Fever, painful urination, back or flank pain, nausea, chills, cloudy or bloody urine.",
+        "Arthritis": "Joint pain, stiffness (especially in the morning), swelling, redness, decreased range of motion."
     }
 }

@@ -419,6 +419,31 @@ export default function SymptomChecker() {
                   <h4 style={{ color: 'var(--accent-primary)', marginBottom: '0.5rem' }}>{t('check_advice')}</h4>
                   <p style={{ color: 'var(--text-secondary)', lineHeight: '1.6' }}>{analysisResult.advice}</p>
                 </div>
+                {analysisResult.typical_symptoms && (
+                  <div style={{ padding: '1.5rem', background: 'rgba(0,0,0,0.3)', borderRadius: '16px' }}>
+                    <h4 style={{ color: 'var(--accent-secondary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <CheckCircle size={20} /> {lang === 'ta' ? 'வழக்கமான அறிகுறிகள்' : lang === 'si' ? 'පොදු රෝග ලක්ෂණ' : 'Typical Symptoms Checklist'}
+                    </h4>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                      {analysisResult.typical_symptoms.split(',').map((symptom, idx) => (
+                        <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'var(--text-secondary)' }}>
+                          <input 
+                            type="checkbox" 
+                            readOnly 
+                            checked={true}
+                            style={{ 
+                              accentColor: 'var(--accent-secondary)', 
+                              width: '16px', 
+                              height: '16px',
+                              cursor: 'default'
+                            }} 
+                          />
+                          <span style={{ fontSize: '0.95rem' }}>{symptom.trim()}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 {analysisResult.nhs_url && (
                   <a href={analysisResult.nhs_url} target="_blank" rel="noreferrer" className="btn" style={{ background: 'rgba(255,255,255,0.05)', width: '100%', color: 'white', border: '1px solid var(--card-border)' }}>
                     {t('check_nhs_btn')} <ExternalLink size={18} />

@@ -5,6 +5,7 @@ import { User, Mail, Lock, ActivitySquare } from 'lucide-react';
 
 export default function Auth({ isLogin }) {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [rememberMe, setRememberMe] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   
@@ -33,8 +34,12 @@ export default function Auth({ isLogin }) {
       if (!res.ok) throw new Error(data.detail || 'Authentication failed');
       
       // Successfully authenticated
-      login({ id: data.user_id, name: data.name, email: formData.email });
-      navigate('/app');
+      login({ id: data.user_id, name: data.name, email: formData.email, is_admin: data.is_admin }, rememberMe);
+      if (data.is_admin) {
+        navigate('/admin');
+      } else {
+        navigate('/app');
+      }
       
     } catch (err) {
       setError(err.message);
@@ -104,6 +109,26 @@ export default function Auth({ isLogin }) {
               placeholder="••••••••"
             />
           </div>
+
+          {isLogin && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '1.5rem', marginTop: '-0.5rem' }}>
+              <input 
+                type="checkbox" 
+                id="rememberMe"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                style={{ 
+                  accentColor: 'var(--accent-primary)', 
+                  width: '16px', 
+                  height: '16px', 
+                  cursor: 'pointer' 
+                }}
+              />
+              <label htmlFor="rememberMe" style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', cursor: 'pointer', userSelect: 'none' }}>
+                Remember me for 30 days
+              </label>
+            </div>
+          )}
 
           <button 
             type="submit" 

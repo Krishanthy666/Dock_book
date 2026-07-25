@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { Stethoscope, Activity, User, Users, Calendar, X, CheckCircle, ChevronRight, ExternalLink, CreditCard, Lock, Star, Volume2, VolumeX } from 'lucide-react';
+import { Stethoscope, Activity, User, Users, Calendar, X, CheckCircle, ChevronRight, ExternalLink, CreditCard, Lock, Star, Volume2, VolumeX, MapPin } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { hasSensitiveData, getSensitiveDataWarning } from '../utils/security';
 
 const stripePromise = loadStripe("pk_test_51TZ9OHCbniPMzR40qE9NTHgkNENMyNxRPjz5m34KJpE8K4HOOY0Bh4KwkoJjkhgWAK0vEij235uLjgaasQ1sK3zO00vJmjO9Z6");
 
@@ -215,6 +216,16 @@ export default function SymptomChecker() {
   const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [bookingSuccess, setBookingSuccess] = useState(false);
   const [appointmentId, setAppointmentId] = useState(null);
+  const [selectedDistrict, setSelectedDistrict] = useState('');
+  const [isDetectingLocation, setIsDetectingLocation] = useState(false);
+
+  const SRI_LANKAN_DISTRICTS = [
+    "Colombo", "Gampaha", "Kalutara", "Kandy", "Matale", "Nuwara Eliya", 
+    "Galle", "Matara", "Hambantota", "Jaffna", "Kilinochchi", "Mannar", 
+    "Vavuniya", "Mullaitivu", "Batticaloa", "Trincomalee", "Ampara", 
+    "Kurunegala", "Puttalam", "Anuradhapura", "Polonnaruwa", "Badulla", 
+    "Moneragala", "Ratnapura", "Kegalle"
+  ];
 
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [audioPlay, setAudioPlay] = useState(null);
@@ -247,7 +258,7 @@ export default function SymptomChecker() {
       if (res.ok) {
         const data = await res.json();
         setAnalysisResult(data);
-        fetchDoctors(data.specialist);
+        fetchDoctors(data.specialist, selectedDistrict);
       }
     } catch (err) {
       console.error(err);
@@ -318,7 +329,7 @@ export default function SymptomChecker() {
       };
       localStorage.setItem('symptom_history', JSON.stringify([newRecord, ...history].slice(0, 5)));
 
-      fetchDoctors(data.specialist);
+      fetchDoctors(data.specialist, selectedDistrict);
     } catch (err) {
       alert('An error occurred while analyzing symptoms.');
     } finally {
@@ -326,10 +337,12 @@ export default function SymptomChecker() {
     }
   };
 
-  const fetchDoctors = async (specialty) => {
+  const fetchDoctors = async (specialty, district = '') => {
     setIsLoadingDoctors(true);
     try {
-      const res = await fetch(`http://localhost:8000/doctors?specialty=${encodeURIComponent(specialty)}`);
+      const url = `http://localhost:8000/doctors?specialty=${encodeURIComponent(specialty)}` + 
+                  (district ? `&district=${encodeURIComponent(district)}` : '');
+      const res = await fetch(url);
       if (!res.ok) throw new Error('Failed to fetch doctors');
       const data = await res.json();
       setDoctors(data);
@@ -338,6 +351,76 @@ export default function SymptomChecker() {
     } finally {
       setIsLoadingDoctors(false);
     }
+  };
+
+  const handleDistrictChange = (district) => {
+    setSelectedDistrict(district);
+    if (analysisResult) {
+      fetchDoctors(analysisResult.specialist, district);
+    }
+  };
+
+  const handleAutoDetectLocation = () => {
+    setIsDetectingLocation(true);
+    if (!navigator.geolocation) {
+      alert("Geolocation is not supported by your browser.");
+      setIsDetectingLocation(false);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10`);
+          if (!res.ok) throw new Error("Failed to resolve location");
+          const data = await res.json();
+          const address = data.address || {};
+          const detectedVal = (
+            address.county || 
+            address.state_district || 
+            address.city || 
+            address.suburb || 
+            address.town || 
+            ""
+          ).toLowerCase();
+          
+          const matchedDistrict = SRI_LANKAN_DISTRICTS.find(
+            d => detectedVal.includes(d.toLowerCase())
+          );
+          
+          if (matchedDistrict) {
+            setSelectedDistrict(matchedDistrict);
+            if (analysisResult) {
+              fetchDoctors(analysisResult.specialist, matchedDistrict);
+            }
+          } else {
+            const displayName = (data.display_name || "").toLowerCase();
+            const matchedFallback = SRI_LANKAN_DISTRICTS.find(
+              d => displayName.includes(d.toLowerCase())
+            );
+            if (matchedFallback) {
+              setSelectedDistrict(matchedFallback);
+              if (analysisResult) {
+                fetchDoctors(analysisResult.specialist, matchedFallback);
+              }
+            } else {
+              alert(`Could not match location ("${data.display_name}") to a Sri Lankan district. Please select it manually.`);
+            }
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Error resolving your location. Please select your district manually.");
+        } finally {
+          setIsDetectingLocation(false);
+        }
+      },
+      (error) => {
+        alert("Unable to retrieve location. Please make sure location permissions are enabled, or select your district manually.");
+        setIsDetectingLocation(false);
+      },
+      { timeout: 10000 }
+    );
   };
 
   const handlePaymentSuccess = (apptId) => {
@@ -373,9 +456,28 @@ export default function SymptomChecker() {
                   value={symptoms}
                   onChange={(e) => setSymptoms(e.target.value)}
                   required
+                  style={{
+                    borderColor: hasSensitiveData(symptoms) ? '#ef4444' : 'var(--card-border)',
+                    boxShadow: hasSensitiveData(symptoms) ? '0 0 0 3px rgba(239, 68, 68, 0.2)' : 'none'
+                  }}
                 />
+                
+                {hasSensitiveData(symptoms) ? (
+                  <div style={{ color: '#fca5a5', fontSize: '0.8rem', marginTop: '0.25rem', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    ⚠️ {getSensitiveDataWarning(symptoms)}
+                  </div>
+                ) : (
+                  <div style={{ color: 'var(--text-secondary)', fontSize: '0.78rem', marginTop: '0.25rem', opacity: 0.85 }}>
+                    🔒 End-to-end encrypted. Please do not input card details or phone numbers.
+                  </div>
+                )}
               </div>
-              <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={isAnalyzing || !symptoms.trim()}>
+              <button 
+                type="submit" 
+                className="btn btn-primary" 
+                style={{ width: '100%' }} 
+                disabled={isAnalyzing || !symptoms.trim() || hasSensitiveData(symptoms)}
+              >
                 {isAnalyzing ? t('check_analyzing') : t('check_btn_analyze')}
                 {!isAnalyzing && <ChevronRight size={20} />}
               </button>
@@ -469,6 +571,58 @@ export default function SymptomChecker() {
                 <User size={24} color="var(--accent-secondary)" />
                 {t('check_doc_avail')}
               </h2>
+
+              <div style={{ background: 'rgba(255, 255, 255, 0.02)', padding: '1rem', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.04)', marginBottom: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                <label style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: '600' }}>
+                  Filter Doctors by Sri Lankan District
+                </label>
+                <div style={{ display: 'flex', gap: '0.75rem' }}>
+                  <select 
+                    value={selectedDistrict} 
+                    onChange={(e) => handleDistrictChange(e.target.value)} 
+                    style={{
+                      flex: 1,
+                      background: 'rgba(0, 0, 0, 0.4)',
+                      color: 'white',
+                      border: '1px solid var(--card-border)',
+                      borderRadius: '8px',
+                      padding: '0.6rem 0.8rem',
+                      fontSize: '0.85rem',
+                      cursor: 'pointer',
+                      outline: 'none',
+                      fontFamily: 'inherit'
+                    }}
+                  >
+                    <option value="">All Districts (Default)</option>
+                    {SRI_LANKAN_DISTRICTS.map(d => (
+                      <option key={d} value={d}>{d}</option>
+                    ))}
+                  </select>
+                  
+                  <button
+                    onClick={handleAutoDetectLocation}
+                    disabled={isDetectingLocation}
+                    style={{
+                      background: 'linear-gradient(135deg, var(--accent-primary), var(--accent-secondary))',
+                      border: 'none',
+                      borderRadius: '8px',
+                      padding: '0.6rem 1rem',
+                      color: 'white',
+                      fontSize: '0.85rem',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '6px',
+                      opacity: isDetectingLocation ? 0.7 : 1,
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    <MapPin size={14} /> 
+                    {isDetectingLocation ? "Detecting..." : "Detect"}
+                  </button>
+                </div>
+              </div>
               {isLoadingDoctors ? (
                 <div className="text-center mt-8 text-secondary">Finding the best doctors for you...</div>
               ) : doctors.length > 0 ? (
@@ -483,6 +637,11 @@ export default function SymptomChecker() {
                           </span>
                         </div>
                         <span className="doctor-specialty">{doctor.specialty}</span>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem 1rem', marginTop: '0.5rem', marginBottom: '0.75rem', fontSize: '0.82rem', color: '#94a3b8' }}>
+                          <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                            <MapPin size={13} color="var(--accent-secondary)" /> {doctor.hospital || "General Hospital"}, {doctor.district || "Colombo"}
+                          </span>
+                        </div>
                         <div className="doctor-meta">
                           <span>{t('check_fee')}: <strong style={{ color: '#10b981' }}>${doctor.fee}</strong></span>
                         </div>

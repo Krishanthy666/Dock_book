@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { MessageSquare, X, Send, Bot, Users } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../context/LanguageContext';
+import { hasSensitiveData, getSensitiveDataWarning } from '../utils/security';
 
 export default function ChatWidget() {
   const { lang, t } = useLanguage();
@@ -140,18 +141,39 @@ export default function ChatWidget() {
           </div>
 
           {/* Input */}
-          <form onSubmit={handleSend} style={{ padding: '1rem', borderTop: '1px solid var(--card-border)', display: 'flex', gap: '0.5rem', background: 'rgba(0,0,0,0.4)' }}>
-            <input
-              type="text"
-              className="input-field"
-              placeholder={t('chat_widget_placeholder')}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              style={{ padding: '0.75rem 1rem', fontSize: '0.875rem', margin: 0 }}
-            />
-            <button type="submit" className="btn btn-primary" style={{ width: '45px', height: '42px', padding: 0, borderRadius: '10px', flexShrink: 0 }} disabled={!input.trim() || isLoading}>
-              <Send size={18} />
-            </button>
+          <form onSubmit={handleSend} style={{ padding: '1rem', borderTop: '1px solid var(--card-border)', display: 'flex', flexDirection: 'column', gap: '0.5rem', background: 'rgba(0,0,0,0.4)' }}>
+            {hasSensitiveData(input) && (
+              <div style={{ color: '#fca5a5', fontSize: '0.75rem', marginBottom: '0.25rem', padding: '0.4rem 0.6rem', background: 'rgba(239,68,68,0.1)', borderRadius: '6px', border: '1px solid rgba(239,68,68,0.2)' }}>
+                ⚠️ {getSensitiveDataWarning(input)}
+              </div>
+            )}
+            <div style={{ display: 'flex', gap: '0.5rem' }}>
+              <input
+                type="text"
+                className="input-field"
+                placeholder={t('chat_widget_placeholder')}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                style={{ 
+                  padding: '0.75rem 1rem', 
+                  fontSize: '0.875rem', 
+                  margin: 0,
+                  borderColor: hasSensitiveData(input) ? '#ef4444' : 'var(--card-border)',
+                  boxShadow: hasSensitiveData(input) ? '0 0 0 3px rgba(239, 68, 68, 0.2)' : 'none'
+                }}
+              />
+              <button 
+                type="submit" 
+                className="btn btn-primary" 
+                style={{ width: '45px', height: '42px', padding: 0, borderRadius: '10px', flexShrink: 0 }} 
+                disabled={!input.trim() || isLoading || hasSensitiveData(input)}
+              >
+                <Send size={18} />
+              </button>
+            </div>
+            <div style={{ color: 'var(--text-secondary)', fontSize: '0.7rem', opacity: 0.8, textAlign: 'center', marginTop: '2px' }}>
+              🔒 Chats are encrypted. Do not share contact details or card info.
+            </div>
           </form>
         </div>
       )}

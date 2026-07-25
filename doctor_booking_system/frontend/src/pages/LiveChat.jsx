@@ -3,6 +3,7 @@ import { ref, push, onValue, set, off } from 'firebase/database';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { hasSensitiveData, getSensitiveDataWarning } from '../utils/security';
 import { MessageSquare, Send, Bot, ArrowLeft, User } from 'lucide-react';
 
 export default function LiveChat() {
@@ -123,17 +124,54 @@ export default function LiveChat() {
         </div>
 
         {/* Input */}
-        <form onSubmit={handleSend} style={{ padding:'1.25rem 1.5rem', borderTop:'1px solid rgba(255,255,255,0.06)', display:'flex', gap:'0.75rem', background:'rgba(0,0,0,0.3)' }}>
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your message to support..."
-            style={{ flex:1, background:'rgba(255,255,255,0.05)', border:'1px solid rgba(139,92,246,0.3)', borderRadius:'12px', padding:'0.875rem 1.25rem', color:'white', fontSize:'0.9rem', outline:'none', fontFamily:'inherit' }}
-          />
-          <button type="submit" disabled={!input.trim() || isSending} style={{ background:'linear-gradient(135deg,#8b5cf6,#7c3aed)', border:'none', borderRadius:'12px', width:'50px', height:'50px', display:'flex', alignItems:'center', justifyContent:'center', cursor: input.trim() && !isSending ? 'pointer' : 'not-allowed', opacity: input.trim() && !isSending ? 1 : 0.5, color:'white' }}>
-            <Send size={20} />
-          </button>
+        <form onSubmit={handleSend} style={{ padding:'1.25rem 1.5rem', borderTop:'1px solid rgba(255,255,255,0.06)', display:'flex', flexDirection: 'column', gap:'0.5rem', background:'rgba(0,0,0,0.3)' }}>
+          {hasSensitiveData(input) && (
+            <div style={{ color: '#fca5a5', fontSize: '0.78rem', marginBottom: '0.25rem', padding: '0.5rem 0.75rem', background: 'rgba(239,68,68,0.1)', borderRadius: '8px', border: '1px solid rgba(239,68,68,0.2)' }}>
+              ⚠️ {getSensitiveDataWarning(input)}
+            </div>
+          )}
+          <div style={{ display: 'flex', gap: '0.75rem' }}>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Type your message to support..."
+              style={{ 
+                flex:1, 
+                background:'rgba(255,255,255,0.05)', 
+                border: hasSensitiveData(input) ? '1px solid #ef4444' : '1px solid rgba(139,92,246,0.3)', 
+                borderRadius:'12px', 
+                padding:'0.875rem 1.25rem', 
+                color:'white', 
+                fontSize:'0.9rem', 
+                outline:'none', 
+                fontFamily:'inherit',
+                boxShadow: hasSensitiveData(input) ? '0 0 0 3px rgba(239, 68, 68, 0.2)' : 'none'
+              }}
+            />
+            <button 
+              type="submit" 
+              disabled={!input.trim() || isSending || hasSensitiveData(input)} 
+              style={{ 
+                background:'linear-gradient(135deg,#8b5cf6,#7c3aed)', 
+                border:'none', 
+                borderRadius:'12px', 
+                width:'50px', 
+                height:'50px', 
+                display:'flex', 
+                alignItems:'center', 
+                justifyContent:'center', 
+                cursor: input.trim() && !isSending && !hasSensitiveData(input) ? 'pointer' : 'not-allowed', 
+                opacity: input.trim() && !isSending && !hasSensitiveData(input) ? 1 : 0.5, 
+                color:'white' 
+              }}
+            >
+              <Send size={20} />
+            </button>
+          </div>
+          <div style={{ color: '#64748b', fontSize: '0.75rem', opacity: 0.9, textAlign: 'center', marginTop: '2px' }}>
+            🔒 End-to-end encrypted. Please do not type card credentials or phone numbers.
+          </div>
         </form>
       </div>
     </div>

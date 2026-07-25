@@ -13,7 +13,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from typing import Optional
 
-from database import SessionLocal, init_db, Doctor, Appointment, User, DiseaseInfo, ChannelPost, ChannelComment, PostLike, GroupChatMessage
+from database import SessionLocal, init_db, Doctor, Appointment, User, DiseaseInfo, ChannelPost, ChannelComment, PostLike, GroupChatMessage, SymptomAnalysisLog
 from translator import translate_to_english, translate_from_english
 
 # ─── Config ───
@@ -248,7 +248,13 @@ def login_user(user: UserLogin, db: Session = Depends(get_db)):
     if not db_user or db_user.password != user.password:
         raise HTTPException(status_code=401, detail="Invalid email or password")
     
-    return {"message": "Login successful", "user_id": db_user.id, "name": db_user.name, "email": db_user.email}
+    return {
+        "message": "Login successful", 
+        "user_id": db_user.id, 
+        "name": db_user.name, 
+        "email": db_user.email,
+        "is_admin": getattr(db_user, "is_admin", False)
+    }
 
 @app.post("/analyze-symptoms", response_model=AnalysisResult)
 def analyze_symptoms(symptom_data: SymptomInput, db: Session = Depends(get_db)):
@@ -280,6 +286,19 @@ def analyze_symptoms(symptom_data: SymptomInput, db: Session = Depends(get_db)):
     translated_typical = translate_from_english(typical_symptoms, lang)
     print(f"DEBUG: translated disease: {translated_disease}, specialist: {translated_specialist}, advice: {translated_advice}")
 
+    # Log analysis request to database
+    try:
+        log_entry = SymptomAnalysisLog(
+            symptoms=symptom_data.symptoms,
+            predicted_disease=predicted_disease,
+            specialist=specialist,
+            lang=lang
+        )
+        db.add(log_entry)
+        db.commit()
+    except Exception as e:
+        print(f"Error saving symptom analysis log: {e}")
+
     return {
         "disease": translated_disease,
         "disease_raw": predicted_disease,
@@ -291,10 +310,15 @@ def analyze_symptoms(symptom_data: SymptomInput, db: Session = Depends(get_db)):
     }
 
 @app.get("/doctors")
-def get_doctors(specialty: str = None, db: Session = Depends(get_db)):
+def get_doctors(specialty: str = None, district: str = None, db: Session = Depends(get_db)):
     query = db.query(Doctor)
     if specialty:
         query = query.filter(Doctor.specialty == specialty)
+    if district:
+        # Filter by district first
+        results = query.filter(Doctor.district == district).all()
+        if results:
+            return results
     return query.all()
 
 @app.post("/create-payment-intent")
@@ -418,6 +442,57 @@ def admin_get_all_appointments(db: Session = Depends(get_db)):
             "date": appt.created_at.strftime("%Y-%m-%d %H:%M") if appt.created_at else "Unknown"
         })
     return result
+
+@app.get("/admin/patients")
+def admin_get_all_patients(db: Session = Depends(get_db)):
+    users = db.query(User).filter(User.is_admin == False).all()
+    result = []
+    for u in users:
+        appt_count = db.query(Appointment).filter(Appointment.user_id == u.id).count()
+        result.append({
+            "id": u.id,
+            "name": u.name,
+            "email": u.email,
+            "appointments_count": appt_count
+        })
+    return result
+
+@app.get("/admin/stats")
+def admin_get_stats(db: Session = Depends(get_db)):
+    total_appts = db.query(Appointment).count()
+    
+    # Calculate revenue based on paid appointments
+    paid_appts = db.query(Appointment).filter(Appointment.payment_status == "paid").all()
+    total_revenue = 0.0
+    for appt in paid_appts:
+        doctor = db.query(Doctor).filter(Doctor.id == appt.doctor_id).first()
+        if doctor:
+            total_revenue += doctor.fee
+
+    # Symptom checker usage count
+    total_analyses = db.query(SymptomAnalysisLog).count()
+    
+    # Disease distributions (from symptom checker logs)
+    disease_counts = {}
+    analyses = db.query(SymptomAnalysisLog.predicted_disease).all()
+    for (disease,) in analyses:
+        if disease:
+            disease_counts[disease] = disease_counts.get(disease, 0) + 1
+        
+    # Appointment specialty distributions
+    specialty_counts = {}
+    for appt in db.query(Appointment).all():
+        doctor = db.query(Doctor).filter(Doctor.id == appt.doctor_id).first()
+        if doctor:
+            specialty_counts[doctor.specialty] = specialty_counts.get(doctor.specialty, 0) + 1
+
+    return {
+        "total_appointments": total_appts,
+        "total_revenue": total_revenue,
+        "total_analyses": total_analyses,
+        "disease_distribution": disease_counts,
+        "specialty_distribution": specialty_counts
+    }
 
 @app.post("/chat")
 def chat_bot(chat_input: ChatInput):

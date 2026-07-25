@@ -21,6 +21,7 @@ class User(Base):
     name = Column(String, index=True)
     email = Column(String, unique=True, index=True)
     password = Column(String) # For demo, plain text. Use bcrypt in prod.
+    is_admin = Column(Boolean, default=False)
     appointments = relationship("Appointment", back_populates="user")
 
 class Doctor(Base):
@@ -31,6 +32,8 @@ class Doctor(Base):
     specialty = Column(String, index=True)
     fee = Column(Float)
     rating = Column(Float)
+    district = Column(String, index=True, nullable=True)
+    hospital = Column(String, nullable=True)
     appointments = relationship("Appointment", back_populates="doctor")
 
 class Appointment(Base):
@@ -96,26 +99,154 @@ class GroupChatMessage(Base):
     message = Column(String)
     created_at = Column(DateTime, default=datetime.utcnow)
 
+class SymptomAnalysisLog(Base):
+    __tablename__ = "symptom_analysis_logs"
+
+    id = Column(Integer, primary_key=True, index=True)
+    symptoms = Column(String)
+    predicted_disease = Column(String, index=True)
+    specialist = Column(String)
+    lang = Column(String, default="en")
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+def generate_srilankan_doctors():
+    districts = [
+        "Colombo", "Gampaha", "Kalutara", "Kandy", "Matale", "Nuwara Eliya", 
+        "Galle", "Matara", "Hambantota", "Jaffna", "Kilinochchi", "Mannar", 
+        "Vavuniya", "Mullaitivu", "Batticaloa", "Trincomalee", "Ampara", 
+        "Kurunegala", "Puttalam", "Anuradhapura", "Polonnaruwa", "Badulla", 
+        "Moneragala", "Ratnapura", "Kegalle"
+    ]
+    
+    specialties = [
+        "General Practitioner", "Pulmonologist", "Neurologist", 
+        "Endocrinologist", "Cardiologist", "Gastroenterologist", 
+        "Nephrologist", "Rheumatologist"
+    ]
+
+    sinhala_names = [
+        "Dr. Nuwan Perera", "Dr. Chaminda Silva", "Dr. Lasantha Fernando", "Dr. Priyantha Jayawardena",
+        "Dr. Sajith Gunawardena", "Dr. Ruwan Rajapaksa", "Dr. Duminda Senanayake", "Dr. Harsha Ranasinghe",
+        "Dr. Kanishka Wickremasinghe", "Dr. Nalin Balasuriya", "Dr. Asela Pathirana", "Dr. Kasun Rathnayake",
+        "Dr. Lahiru Weerasinghe", "Dr. Prabath Kumarage", "Dr. Suren Herath", "Dr. Thusitha Siriwardena",
+        "Dr. Roshan Samaraweera", "Dr. Dinesh Karunaratne", "Dr. Mahesh Peiris", "Dr. Vajira Wijewardene"
+    ]
+    
+    tamil_names = [
+        "Dr. S. Sathusan", "Dr. R. Rajanikanth", "Dr. K. Sivaraman", "Dr. T. Kanagasingam",
+        "Dr. M. Tharmarajah", "Dr. V. Shanmugam", "Dr. B. Balasubramaniam", "Dr. P. Paramsothy",
+        "Dr. G. Vigneshwaran", "Dr. A. Mahendran", "Dr. N. Ramanathan", "Dr. S. Sivakumar",
+        "Dr. K. Arumugam", "Dr. J. Krishnakumar", "Dr. P. Murugan", "Dr. T. Ganeshan",
+        "Dr. S. Selvarajah", "Dr. V. Sivanathan", "Dr. K. Sivalingam", "Dr. M. Nadarajah"
+    ]
+    
+    tamil_districts = {"Jaffna", "Kilinochchi", "Mannar", "Vavuniya", "Mullaitivu", "Batticaloa", "Trincomalee"}
+    
+    mock_doctors = []
+    for district in districts:
+        is_tamil = district in tamil_districts
+        for specialty in specialties:
+            hash_idx_1 = (districts.index(district) * len(specialties) + specialties.index(specialty)) * 2
+            hash_idx_2 = hash_idx_1 + 1
+            
+            if is_tamil:
+                name1 = tamil_names[hash_idx_1 % len(tamil_names)]
+                name2 = tamil_names[hash_idx_2 % len(tamil_names)]
+            else:
+                name1 = sinhala_names[hash_idx_1 % len(sinhala_names)]
+                name2 = sinhala_names[hash_idx_2 % len(sinhala_names)]
+                
+            hospital1 = f"{district} General Hospital"
+            hospital2 = f"{district} Cooperative Hospital" if districts.index(district) % 2 == 0 else f"{district} Base Hospital"
+            
+            fee1 = 80.0 + (hash_idx_1 % 5) * 15.0
+            fee2 = 75.0 + (hash_idx_2 % 5) * 15.0
+            
+            rating1 = round(4.2 + (hash_idx_1 % 9) * 0.1, 1)
+            rating2 = round(4.1 + (hash_idx_2 % 9) * 0.1, 1)
+            
+            mock_doctors.append(Doctor(
+                name=name1,
+                specialty=specialty,
+                fee=fee1,
+                rating=rating1,
+                district=district,
+                hospital=hospital1
+            ))
+            
+            mock_doctors.append(Doctor(
+                name=name2,
+                specialty=specialty,
+                fee=fee2,
+                rating=rating2,
+                district=district,
+                hospital=hospital2
+            ))
+    return mock_doctors
+
 def init_db():
     Base.metadata.create_all(bind=engine)
 
     db = SessionLocal()
     
-    # Seed mock doctors if empty
-    if db.query(Doctor).count() == 0:
-        mock_doctors = [
-            Doctor(name="Dr. Smith", specialty="General Practitioner", fee=100.0, rating=4.8),
-            Doctor(name="Dr. Johnson", specialty="General Practitioner", fee=90.0, rating=4.5),
-            Doctor(name="Dr. Williams", specialty="Pulmonologist", fee=150.0, rating=4.9),
-            Doctor(name="Dr. Brown", specialty="Neurologist", fee=200.0, rating=4.7),
-            Doctor(name="Dr. Jones", specialty="Endocrinologist", fee=130.0, rating=4.6),
-            Doctor(name="Dr. Garcia", specialty="Cardiologist", fee=250.0, rating=4.9),
-            Doctor(name="Dr. Miller", specialty="Gastroenterologist", fee=140.0, rating=4.4),
-            Doctor(name="Dr. Davis", specialty="Nephrologist", fee=180.0, rating=4.8),
-            Doctor(name="Dr. Rodriguez", specialty="Rheumatologist", fee=160.0, rating=4.7),
-        ]
-        db.add_all(mock_doctors)
-        db.commit()
+    # Check if is_admin column exists in users, and alter if not
+    try:
+        from sqlalchemy import text
+        with engine.begin() as conn:
+            cursor = conn.execute(text("PRAGMA table_info(users)"))
+            columns = [row[1] for row in cursor]
+            if "is_admin" not in columns:
+                conn.execute(text("ALTER TABLE users ADD COLUMN is_admin BOOLEAN DEFAULT 0"))
+    except Exception as e:
+        print(f"Error checking/adding column is_admin: {e}")
+
+    # Check if district/hospital columns exist in doctors, and alter if not
+    try:
+        from sqlalchemy import text
+        with engine.begin() as conn:
+            cursor = conn.execute(text("PRAGMA table_info(doctors)"))
+            columns = [row[1] for row in cursor]
+            if "district" not in columns:
+                conn.execute(text("ALTER TABLE doctors ADD COLUMN district VARCHAR(100) DEFAULT 'Colombo'"))
+            if "hospital" not in columns:
+                conn.execute(text("ALTER TABLE doctors ADD COLUMN hospital VARCHAR(200) DEFAULT 'Colombo General Hospital'"))
+    except Exception as e:
+        print(f"Error checking/adding columns to doctors table: {e}")
+
+    # Seed admin user if not exists
+    try:
+        admin_user = db.query(User).filter(User.email == "admin@edocbook.com").first()
+        if not admin_user:
+            admin_user = User(
+                name="System Admin",
+                email="admin@edocbook.com",
+                password="adminpassword",
+                is_admin=True
+            )
+            db.add(admin_user)
+            db.commit()
+    except Exception as e:
+        print(f"Error seeding admin user: {e}")
+    
+    # Seed mock doctors if empty or old structure
+    needs_reseeding = False
+    try:
+        if db.query(Doctor).count() < 50 or db.query(Doctor).filter(Doctor.district == None).count() > 0:
+            needs_reseeding = True
+    except Exception:
+        needs_reseeding = True
+
+    if needs_reseeding:
+        try:
+            db.query(Doctor).delete()
+            db.commit()
+            
+            mock_doctors = generate_srilankan_doctors()
+            db.add_all(mock_doctors)
+            db.commit()
+            print(f"Successfully seeded {len(mock_doctors)} Sri Lankan doctors across all 25 districts!")
+        except Exception as e:
+            print(f"Error seeding Sri Lankan doctors: {e}")
         
     # Seed disease info from json if empty
     if db.query(DiseaseInfo).count() == 0:

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { hasSensitiveData, getSensitiveDataWarning } from '../utils/security';
 import { MessageSquare, ThumbsUp, Send, Users, Activity, MessageCircle, FileText, Search } from 'lucide-react';
 
 const CHANNELS = [
@@ -309,14 +310,24 @@ export default function Community() {
                     placeholder={t('comm_write_post')}
                     value={postContent}
                     onChange={(e) => setPostContent(e.target.value)}
-                    style={{ minHeight: '80px', fontSize: '0.95rem' }}
+                    style={{ 
+                      minHeight: '80px', 
+                      fontSize: '0.95rem',
+                      borderColor: hasSensitiveData(postContent) ? '#ef4444' : 'var(--card-border)',
+                      boxShadow: hasSensitiveData(postContent) ? '0 0 0 3px rgba(239, 68, 68, 0.2)' : 'none'
+                    }}
                     required
                   />
+                  {hasSensitiveData(postContent) && (
+                    <div style={{ color: '#fca5a5', fontSize: '0.8rem', marginTop: '-0.5rem' }}>
+                      ⚠️ {getSensitiveDataWarning(postContent)}
+                    </div>
+                  )}
                   <button 
                     type="submit" 
                     className="btn btn-primary" 
                     style={{ alignSelf: 'flex-end', padding: '0.6rem 1.5rem', fontSize: '0.9rem' }}
-                    disabled={!postContent.trim() || isSubmittingPost}
+                    disabled={!postContent.trim() || isSubmittingPost || hasSensitiveData(postContent)}
                   >
                     {t('comm_btn_post')}
                   </button>
@@ -431,24 +442,35 @@ export default function Community() {
                       </div>
 
                       {/* Comment Input */}
-                      <form onSubmit={(e) => handleAddComment(e, post.id)} style={{ display: 'flex', gap: '0.5rem' }}>
-                        <input
-                          type="text"
-                          className="input-field"
-                          placeholder={t('comm_add_comment')}
-                          value={commentInputs[post.id] || ''}
-                          onChange={(e) => handleCommentInputChange(post.id, e.target.value)}
-                          style={{ padding: '0.5rem 1rem', fontSize: '0.875rem', margin: 0 }}
-                          required
-                        />
-                        <button 
-                          type="submit" 
-                          className="btn btn-primary" 
-                          style={{ width: '42px', height: '38px', padding: 0, borderRadius: '10px' }}
-                          disabled={!(commentInputs[post.id] || '').trim()}
-                        >
-                          <Send size={15} />
-                        </button>
+                      <form onSubmit={(e) => handleAddComment(e, post.id)} style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem' }}>
+                        {hasSensitiveData(commentInputs[post.id]) && (
+                          <div style={{ color: '#fca5a5', fontSize: '0.78rem' }}>
+                            ⚠️ {getSensitiveDataWarning(commentInputs[post.id])}
+                          </div>
+                        )}
+                        <div style={{ display: 'flex', gap: '0.5rem' }}>
+                          <input 
+                            type="text" 
+                            className="input-field"
+                            placeholder={t('comm_add_comment')}
+                            value={commentInputs[post.id] || ''}
+                            onChange={(e) => handleCommentInputChange(post.id, e.target.value)}
+                            style={{ 
+                              padding: '0.6rem 1rem', 
+                              fontSize: '0.85rem',
+                              borderColor: hasSensitiveData(commentInputs[post.id]) ? '#ef4444' : 'var(--card-border)',
+                              boxShadow: hasSensitiveData(commentInputs[post.id]) ? '0 0 0 3px rgba(239, 68, 68, 0.2)' : 'none'
+                            }}
+                          />
+                          <button 
+                            type="submit" 
+                            className="btn btn-primary" 
+                            style={{ padding: '0.6rem 1.2rem', fontSize: '0.85rem' }}
+                            disabled={!(commentInputs[post.id] || '').trim() || hasSensitiveData(commentInputs[post.id])}
+                          >
+                            {t('comm_btn_comment')}
+                          </button>
+                        </div>
                       </form>
 
                     </div>

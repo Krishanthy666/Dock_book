@@ -952,6 +952,8 @@ export default function AdminChat() {
                 </>
               )}
             </div>
+          </div>
+        )}
             
         {/* --- ML MODEL LAB TAB CONTENT --- */}
         {activeTab === 'models' && (

@@ -12,27 +12,15 @@
         "Arthritis": "Rheumatologist"
     },
     "disease_to_advice": {
-        "Flu": "Rest as much as possible to help your body fight the infection. Drink plenty of warm fluids (such as water, herbal tea, or broth) to stay hydrated. Consider over-the-counter pain relievers like paracetamol or ibuprofen to manage fever and relieve body aches. Avoid strenuous physical activity and isolate yourself from others to prevent spreading the virus.",
-        "Common Cold": "Stay hydrated by drinking plenty of warm water or juice. Get adequate rest to support your immune system. Use saline nasal drops or sprays to relieve nasal congestion. Gargle with warm salt water or use throat lozenges to soothe a sore throat. Avoid cold drinks, drafts, and sudden temperature changes.",
-        "COVID-19": "Isolate yourself immediately in a well-ventilated single room. Wear a high-filtration mask (like N95 or KN95) if you must be around others. Monitor your oxygen levels daily using a pulse oximeter. Stay hydrated, rest, and take fever-reducing medications. Seek emergency medical attention immediately if you experience shortness of breath, chest pain, or blue lips.",
-        "Migraine": "Rest in a quiet, dark, and cool room. Avoid screens, bright lights, and loud noises. Apply a cold compress or ice pack wrapped in a cloth to your forehead or the back of your neck. Sip water to stay hydrated, as dehydration is a common trigger. Avoid caffeine and strong odors, and consider taking over-the-counter pain relievers at the onset.",
-        "Asthma": "Use your prescribed rescue inhaler (bronchodilator) immediately as directed. Sit upright and try to keep your breathing calm and steady. Remove yourself from any environment containing triggers (such as dust, cigarette smoke, pet dander, or pollen). If symptoms do not improve within 10-15 minutes or you find it difficult to speak, seek emergency medical care.",
-        "Diabetes": "Monitor your blood sugar levels regularly throughout the day. Adhere strictly to a balanced, low-glycemic index dietary plan. Stay well-hydrated by drinking water and avoiding sugary beverages. Take your prescribed insulin or oral diabetic medications exactly as scheduled. Engage in light physical activity like walking after meals to help manage glucose levels.",
-        "Hypertension": "Reduce your sodium (salt) intake and avoid processed foods. Practice stress-relief techniques such as deep breathing exercises, yoga, or daily meditation. Monitor your blood pressure at home and keep a log. Avoid caffeine, alcohol, and nicotine. Take your prescribed antihypertensive medications consistently at the same time every day.",
-        "Food Poisoning": "Drink plenty of fluids (water, diluted juice, or oral rehydration solutions) in small, frequent sips to replace lost fluids and electrolytes. Avoid solid food for the first few hours until your stomach settles. When ready, eat bland, low-fat foods (such as bananas, plain white rice, applesauce, or toast). Avoid dairy, caffeine, alcohol, and spicy foods.",
-        "Kidney Infection": "Drink plenty of water to help flush bacteria out of your kidneys and urinary tract. Get plenty of bed rest to help your body recover. Make sure to complete the entire course of prescribed antibiotics, even if you start feeling better sooner. Avoid holding your urine, and apply a warm heating pad to your back or abdomen to ease pain.",
-        "Arthritis": "Engage in regular low-impact exercises such as swimming, cycling, or walking to keep joints flexible. Apply warm compresses or take a warm bath to soothe stiff joints, or use cold packs to reduce swelling and acute pain. Maintain a healthy body weight to reduce stress on weight-bearing joints. Consult a physical therapist for a tailored exercise routine."
-    },
-    "disease_to_typical_symptoms": {
-        "Flu": "High fever, chills, body aches, fatigue, dry cough, sore throat, runny nose.",
-        "Common Cold": "Runny or stuffy nose, sneezing, mild sore throat, low-grade cough, mild headache.",
-        "COVID-19": "Fever, dry cough, shortness of breath, loss of taste or smell, extreme fatigue, body aches.",
-        "Migraine": "Severe throbbing headache, sensitivity to light/sound, nausea, vomiting, visual aura.",
-        "Asthma": "Shortness of breath, wheezing, coughing (especially at night), chest tightness.",
-        "Diabetes": "Increased thirst, frequent urination, extreme hunger, unexplained weight loss, fatigue, blurry vision.",
-        "Hypertension": "Often asymptomatic (silent killer), severe headaches, chest pain, dizziness, shortness of breath.",
-        "Food Poisoning": "Nausea, vomiting, watery diarrhea, abdominal cramps, fever, loss of appetite.",
-        "Kidney Infection": "Fever, painful urination, back or flank pain, nausea, chills, cloudy or bloody urine.",
-        "Arthritis": "Joint pain, stiffness (especially in the morning), swelling, redness, decreased range of motion."
+        "Flu": "Rest, drink plenty of fluids, and consider over-the-counter pain relievers.",
+        "Common Cold": "Stay hydrated, rest, and use throat lozenges if needed.",
+        "COVID-19": "Isolate yourself, wear a mask, and seek emergency care if you have trouble breathing.",
+        "Migraine": "Rest in a quiet, dark room. Apply a cold compress to your head.",
+        "Asthma": "Use your prescribed inhaler and avoid known triggers.",
+        "Diabetes": "Monitor your blood sugar levels and adhere to your dietary plan.",
+        "Hypertension": "Reduce sodium intake, manage stress, and monitor your blood pressure.",
+        "Food Poisoning": "Stay hydrated with water or electrolyte solutions. Eat bland foods.",
+        "Kidney Infection": "Drink plenty of water and complete any prescribed antibiotic courses.",
+        "Arthritis": "Engage in gentle exercises and use hot/cold therapy for joint pain."
     }
 }

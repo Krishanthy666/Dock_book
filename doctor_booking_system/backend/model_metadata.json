@@ -1,0 +1,7 @@
+{
+    "model_name": "Logistic Regression",
+    "accuracy": 1.0,
+    "f1_score": 1.0,
+    "version": "1.0.0",
+    "last_trained": "2026-08-09 20:59:23"
+}

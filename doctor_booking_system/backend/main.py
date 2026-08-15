@@ -12,6 +12,10 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from typing import Optional
+from datetime import datetime, timedelta
+
+# In-memory storage for registrations waiting for OTP verification
+pending_registrations = {}  # email -> {name, password, otp, expires_at}
 
 from database import SessionLocal, init_db, Doctor, Appointment, User, DiseaseInfo, ChannelPost, ChannelComment, PostLike, GroupChatMessage, SymptomAnalysisLog
 from translator import translate_to_english, translate_from_english
@@ -206,6 +210,10 @@ class UserLogin(BaseModel):
     email: str
     password: str
 
+class VerifyOTPInput(BaseModel):
+    email: str
+    otp: str
+
 class ChatInput(BaseModel):
     message: str
     lang: Optional[str] = "en"
@@ -241,6 +249,126 @@ def register_user(user: UserRegister, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(new_user)
     return {"message": "User created successfully", "user_id": new_user.id, "name": new_user.name, "email": new_user.email}
+
+def send_otp_email(to_email: str, otp: str, user_name: str):
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = f"🔑 eDocBook — Registration OTP Code"
+        msg["From"] = MAILTRAP_FROM
+        msg["To"] = to_email
+
+        html_body = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <style>
+            body {{ font-family: 'Segoe UI', Arial, sans-serif; background: #0f0f1a; color: #e2e8f0; margin: 0; padding: 0; }}
+            .container {{ max-width: 500px; margin: 40px auto; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); border-radius: 20px; overflow: hidden; border: 1px solid rgba(139,92,246,0.3); }}
+            .header {{ background: linear-gradient(135deg, #8b5cf6, #06b6d4); padding: 30px; text-align: center; }}
+            .header h1 {{ color: white; margin: 0; font-size: 24px; letter-spacing: -0.5px; }}
+            .body {{ padding: 30px; text-align: center; }}
+            .greeting {{ font-size: 16px; color: #e2e8f0; margin-bottom: 20px; text-align: left; }}
+            .otp-code {{ display: inline-block; background: rgba(139,92,246,0.15); color: #8b5cf6; border: 1px dashed rgba(139,92,246,0.5); border-radius: 10px; padding: 12px 30px; font-size: 32px; font-weight: 700; letter-spacing: 4px; margin: 20px 0; }}
+            .footer {{ padding: 20px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); }}
+            .footer p {{ color: #475569; font-size: 12px; margin: 4px 0; }}
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <h1>⚕️ eDocBook Verification</h1>
+            </div>
+            <div class="body">
+              <p class="greeting">Hello, <strong>{user_name}</strong>! 👋</p>
+              <p style="color:#94a3b8; font-size:14px; margin-bottom:20px; text-align: left;">
+                Thank you for registering on eDocBook. Please use the following One-Time Password (OTP) to complete your registration. This code is valid for 10 minutes.
+              </p>
+              <div class="otp-code">{otp}</div>
+              <p style="color:#64748b; font-size:13px; margin-top:20px; text-align: left;">
+                If you did not request this code, you can safely ignore this email.
+              </p>
+            </div>
+            <div class="footer">
+              <p>© 2024 eDocBook — Intelligent Healthcare Platform</p>
+            </div>
+          </div>
+        </body>
+        </html>
+        """
+        msg.attach(MIMEText(html_body, "html"))
+        
+        with smtplib.SMTP(MAILTRAP_HOST, MAILTRAP_PORT) as server:
+            server.starttls()
+            server.login(MAILTRAP_USER, MAILTRAP_PASS)
+            server.sendmail(MAILTRAP_FROM, to_email, msg.as_string())
+            
+        print(f"✅ OTP email sent to {to_email}")
+    except Exception as e:
+        print(f"❌ OTP email sending failed: {e}")
+
+@app.post("/register/request-otp")
+def request_otp(user: UserRegister, db: Session = Depends(get_db)):
+    existing_user = db.query(User).filter(User.email == user.email).first()
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Email already registered")
+    
+    # Generate 6-digit OTP
+    otp = str(random.randint(100000, 999999))
+    expires_at = datetime.utcnow() + timedelta(minutes=10)
+    
+    # Save in memory
+    pending_registrations[user.email] = {
+        "name": user.name,
+        "password": user.password,
+        "otp": otp,
+        "expires_at": expires_at
+    }
+    
+    # Print to console for easy developer verification
+    print(f"\n=============================================")
+    print(f"[OTP DEBUG] Verification OTP for {user.email}: {otp}")
+    print(f"=============================================\n")
+    
+    # Send email
+    send_otp_email(user.email, otp, user.name)
+    
+    return {"message": "OTP sent successfully"}
+
+@app.post("/register/verify-otp")
+def verify_otp(data: VerifyOTPInput, db: Session = Depends(get_db)):
+    pending = pending_registrations.get(data.email)
+    if not pending:
+        raise HTTPException(status_code=400, detail="No pending registration request found for this email")
+    
+    if datetime.utcnow() > pending["expires_at"]:
+        pending_registrations.pop(data.email, None)
+        raise HTTPException(status_code=400, detail="OTP has expired. Please request a new one.")
+        
+    if pending["otp"] != data.otp:
+        raise HTTPException(status_code=400, detail="Invalid OTP code")
+        
+    # Check again if user was registered in the meantime
+    existing_user = db.query(User).filter(User.email == data.email).first()
+    if existing_user:
+        pending_registrations.pop(data.email, None)
+        raise HTTPException(status_code=400, detail="Email already registered")
+        
+    new_user = User(name=pending["name"], email=data.email, password=pending["password"])
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+    
+    # Clean up pending
+    pending_registrations.pop(data.email, None)
+    
+    return {
+        "message": "User created successfully", 
+        "user_id": new_user.id, 
+        "name": new_user.name, 
+        "email": new_user.email,
+        "is_admin": getattr(new_user, "is_admin", False)
+    }
 
 @app.post("/login")
 def login_user(user: UserLogin, db: Session = Depends(get_db)):
@@ -307,6 +435,22 @@ def analyze_symptoms(symptom_data: SymptomInput, db: Session = Depends(get_db)):
         "advice": translated_advice,
         "typical_symptoms": translated_typical,
         "nhs_url": nhs_url
+    }
+
+@app.get("/model-info")
+def get_model_info():
+    try:
+        if os.path.exists("model_metadata.json"):
+            with open("model_metadata.json", "r") as f:
+                return json.load(f)
+    except Exception as e:
+        print(f"Error reading model metadata: {e}")
+    return {
+        "model_name": "Logistic Regression (TF-IDF)",
+        "accuracy": 1.0000,
+        "f1_score": 1.0000,
+        "version": "1.0.0",
+        "last_trained": "N/A"
     }
 
 @app.get("/doctors")

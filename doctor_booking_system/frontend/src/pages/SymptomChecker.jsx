@@ -209,6 +209,14 @@ export default function SymptomChecker() {
   }, [user, navigate]);
 
   const [symptoms, setSymptoms] = useState('');
+  const [modelInfo, setModelInfo] = useState(null);
+  
+  useEffect(() => {
+    fetch('http://localhost:8000/model-info')
+      .then(res => res.json())
+      .then(data => setModelInfo(data))
+      .catch(err => console.error("Error fetching model info:", err));
+  }, []);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisResult, setAnalysisResult] = useState(null);
   const [doctors, setDoctors] = useState([]);
@@ -433,6 +441,8 @@ export default function SymptomChecker() {
     }, 3000);
   };
 
+  const cheapestFee = doctors.length > 0 ? Math.min(...doctors.map(d => d.fee)) : null;
+
   return (
     <div className="app-container">
       <header className="header animate-slide-up" style={{ padding: '1rem 0 3rem 0' }}>
@@ -482,6 +492,23 @@ export default function SymptomChecker() {
                 {!isAnalyzing && <ChevronRight size={20} />}
               </button>
             </form>
+
+            {modelInfo && (
+              <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid rgba(255, 255, 255, 0.08)', display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.78rem', color: 'var(--text-secondary)' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>🤖 AI Engine:</span>
+                  <span style={{ color: 'var(--text-primary)', fontWeight: '600' }}>{modelInfo.model_name} (v{modelInfo.version})</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>🎯 Accuracy Rate:</span>
+                  <span style={{ color: '#10b981', fontWeight: '700' }}>{(modelInfo.accuracy * 100).toFixed(2)}%</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>📈 F1-Score:</span>
+                  <span style={{ color: '#06b6d4', fontWeight: '700' }}>{(modelInfo.f1_score * 100).toFixed(2)}%</span>
+                </div>
+              </div>
+            )}
           </div>
 
           {analysisResult && (
@@ -630,8 +657,27 @@ export default function SymptomChecker() {
                   {doctors.map(doctor => (
                     <div key={doctor.id} className="glass-card" style={{ background: 'rgba(255,255,255,0.02)', padding: '1.5rem' }}>
                       <div className="doctor-card">
-                        <div className="doctor-header">
-                          <h3 className="doctor-name">{doctor.name}</h3>
+                        <div className="doctor-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+                            <h3 className="doctor-name" style={{ margin: 0 }}>{doctor.name}</h3>
+                            {cheapestFee === doctor.fee && (
+                              <span style={{
+                                background: 'rgba(16, 185, 129, 0.15)',
+                                color: '#10b981',
+                                border: '1px solid rgba(16, 185, 129, 0.3)',
+                                borderRadius: '12px',
+                                padding: '0.2rem 0.6rem',
+                                fontSize: '0.72rem',
+                                fontWeight: 'bold',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.5px',
+                                display: 'inline-flex',
+                                alignItems: 'center'
+                              }}>
+                                Cheapest Option
+                              </span>
+                            )}
+                          </div>
                           <span style={{ fontWeight: 'bold', color: '#10b981', display: 'flex', alignItems: 'center', gap: '3px' }}>
                             <Star size={14} fill="#10b981" color="#10b981" /> {doctor.rating}
                           </span>

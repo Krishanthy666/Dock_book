@@ -41,6 +41,18 @@ app.add_middleware(
 )
 
 # ─── Load ML Models on startup ───
+AVAILABLE_MODELS = {
+    "Logistic Regression": "symptom_model_logistic_regression.joblib",
+    "Decision Tree": "symptom_model_decision_tree.joblib",
+    "Random Forest": "symptom_model_random_forest.joblib",
+    "Support Vector Machine": "symptom_model_support_vector_machine.joblib",
+    "Naïve Bayes": "symptom_model_naive_bayes.joblib",
+    "K-Nearest Neighbors": "symptom_model_k_nearest_neighbors.joblib",
+    "Optimized Logistic Regression": "symptom_model_optimized_logistic_regression.joblib",
+    "Voting Ensemble Model": "symptom_model_voting_ensemble_model.joblib"
+}
+loaded_models = {}
+active_model_name = "Logistic Regression"
 model = None
 chatbot_model = None
 chatbot_responses = {}
@@ -48,12 +60,35 @@ chatbot_responses = {}
 @app.on_event("startup")
 def startup_event():
     init_db()
-    global model, chatbot_model, chatbot_responses
+    global model, chatbot_model, chatbot_responses, active_model_name
+    
+    # Read active model from model_comparison.json if it exists
     try:
-        model = joblib.load("symptom_model.joblib")
+        if os.path.exists("model_comparison.json"):
+            with open("model_comparison.json", "r") as f:
+                comp_data = json.load(f)
+                active_model_name = comp_data.get("active_model", "Logistic Regression")
     except Exception as e:
-        print(f"Error loading symptom model: {e}")
-        
+        print(f"Error reading model comparison json for active_model: {e}")
+
+    for name, filename in AVAILABLE_MODELS.items():
+        try:
+            if os.path.exists(filename):
+                loaded_models[name] = joblib.load(filename)
+                print(f"✅ Loaded model: {name}")
+            elif name == "Logistic Regression" and os.path.exists("symptom_model.joblib"):
+                loaded_models[name] = joblib.load("symptom_model.joblib")
+                print(f"✅ Loaded fallback model: {name}")
+        except Exception as e:
+            print(f"❌ Error loading model {name}: {e}")
+
+    # Set the global model reference to the active model
+    model = loaded_models.get(active_model_name)
+    if model is None and len(loaded_models) > 0:
+        active_model_name = list(loaded_models.keys())[0]
+        model = loaded_models[active_model_name]
+        print(f"⚠️ Fallback active model set to: {active_model_name}")
+
     try:
         chatbot_model = joblib.load("chatbot_model.joblib")
         with open("chatbot_responses.json", "r") as f:
@@ -437,21 +472,94 @@ def analyze_symptoms(symptom_data: SymptomInput, db: Session = Depends(get_db)):
         "nhs_url": nhs_url
     }
 
+class SelectModelInput(BaseModel):
+    model_name: str
+
+class TestModelsInput(BaseModel):
+    symptoms: str
+
 @app.get("/model-info")
 def get_model_info():
     try:
-        if os.path.exists("model_metadata.json"):
-            with open("model_metadata.json", "r") as f:
-                return json.load(f)
+        if os.path.exists("model_comparison.json"):
+            with open("model_comparison.json", "r") as f:
+                comp_data = json.load(f)
+                comp_data["active_model"] = active_model_name
+                active_metrics = next((m for m in comp_data.get("models", []) if m["name"] == active_model_name), None)
+                if active_metrics:
+                    comp_data["model_name"] = active_model_name
+                    comp_data["accuracy"] = active_metrics["accuracy"]
+                    comp_data["f1_score"] = active_metrics["f1_score"]
+                    comp_data["version"] = "1.0.0"
+                return comp_data
     except Exception as e:
-        print(f"Error reading model metadata: {e}")
+        print(f"Error reading model comparison: {e}")
+    
     return {
-        "model_name": "Logistic Regression (TF-IDF)",
-        "accuracy": 1.0000,
-        "f1_score": 1.0000,
+        "active_model": active_model_name,
+        "model_name": active_model_name,
+        "accuracy": 1.0,
+        "f1_score": 1.0,
         "version": "1.0.0",
-        "last_trained": "N/A"
+        "models": []
     }
+
+@app.post("/select-model")
+def select_model(data: SelectModelInput):
+    global model, active_model_name
+    name = data.model_name
+    if name not in loaded_models:
+        raise HTTPException(status_code=400, detail=f"Model '{name}' is not loaded or does not exist")
+    
+    active_model_name = name
+    model = loaded_models[name]
+    
+    try:
+        if os.path.exists("model_comparison.json"):
+            with open("model_comparison.json", "r") as f:
+                comp_data = json.load(f)
+            comp_data["active_model"] = name
+            with open("model_comparison.json", "w") as f:
+                json.dump(comp_data, f, indent=4)
+    except Exception as e:
+        print(f"Error persisting active model selection: {e}")
+        
+    return {"message": "Active model updated successfully", "active_model": active_model_name}
+
+@app.post("/admin/test-models")
+def test_all_models(data: TestModelsInput, db: Session = Depends(get_db)):
+    results = {}
+    english_symptoms = translate_to_english(data.symptoms, "en")
+    for name, clf in loaded_models.items():
+        try:
+            pred = clf.predict([english_symptoms])[0]
+            disease_info = db.query(DiseaseInfo).filter(DiseaseInfo.name == pred).first()
+            specialist = disease_info.specialist if disease_info else "General Practitioner"
+            results[name] = {
+                "disease": pred,
+                "specialist": specialist
+            }
+        except Exception as e:
+            results[name] = {
+                "disease": f"Error: {e}",
+                "specialist": "N/A"
+            }
+    return results
+
+@app.get("/admin/symptom-logs")
+def get_symptom_logs(db: Session = Depends(get_db)):
+    logs = db.query(SymptomAnalysisLog).order_by(SymptomAnalysisLog.created_at.desc()).limit(100).all()
+    return [
+        {
+            "id": log.id,
+            "symptoms": log.symptoms,
+            "predicted_disease": log.predicted_disease,
+            "specialist": log.specialist,
+            "lang": log.lang,
+            "created_at": log.created_at.isoformat() if log.created_at else None
+        }
+        for log in logs
+    ]
 
 @app.get("/doctors")
 def get_doctors(specialty: str = None, district: str = None, db: Session = Depends(get_db)):

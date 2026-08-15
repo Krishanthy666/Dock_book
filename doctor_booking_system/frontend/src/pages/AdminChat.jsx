@@ -42,6 +42,79 @@ export default function AdminChat() {
   const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef(null);
 
+  // Model Comparison & Lab states
+  const [modelInfo, setModelInfo] = useState(null);
+  const [symptomLogs, setSymptomLogs] = useState([]);
+  const [testSymptoms, setTestSymptoms] = useState('');
+  const [testResults, setTestResults] = useState(null);
+  const [isTesting, setIsTesting] = useState(false);
+  const [isSwitchingModel, setIsSwitchingModel] = useState(false);
+
+  const fetchModelLabData = async () => {
+    try {
+      const infoRes = await fetch('http://localhost:8000/model-info');
+      if (infoRes.ok) {
+        const infoData = await infoRes.json();
+        setModelInfo(infoData);
+      }
+
+      const logsRes = await fetch('http://localhost:8000/admin/symptom-logs');
+      if (logsRes.ok) {
+        const logsData = await logsRes.json();
+        setSymptomLogs(logsData);
+      }
+    } catch (err) {
+      console.error("Error fetching model lab data:", err);
+    }
+  };
+
+  const handleSelectModel = async (modelName) => {
+    setIsSwitchingModel(true);
+    try {
+      const res = await fetch('http://localhost:8000/select-model', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ model_name: modelName })
+      });
+      if (res.ok) {
+        await fetchModelLabData();
+      } else {
+        const data = await res.json();
+        alert(data.detail || "Failed to switch model");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error switching model");
+    } finally {
+      setIsSwitchingModel(false);
+    }
+  };
+
+  const handleTestModels = async (e) => {
+    e.preventDefault();
+    if (!testSymptoms.trim()) return;
+    setIsTesting(true);
+    setTestResults(null);
+    try {
+      const res = await fetch('http://localhost:8000/admin/test-models', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ symptoms: testSymptoms })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setTestResults(data);
+      } else {
+        alert("Failed to test models");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error testing models");
+    } finally {
+      setIsTesting(false);
+    }
+  };
+
   // Fetch admin dashboard stats, appointments and patients
   const fetchData = async () => {
     if (!user || !user.is_admin) return;
@@ -67,7 +140,10 @@ export default function AdminChat() {
 
   useEffect(() => {
     fetchData();
-  }, [user]);
+    if (user && user.is_admin) {
+      fetchModelLabData();
+    }
+  }, [user, activeTab]);
 
   // Load conversations from Firebase for Live Support
   useEffect(() => {
@@ -356,6 +432,18 @@ export default function AdminChat() {
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f43f5e', marginLeft: 'auto' }} />
             )}
           </button>
+
+          <button 
+            onClick={() => { setActiveTab('models'); setSearchQuery(''); }}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.8rem 1rem', borderRadius: '12px', border: 'none', cursor: 'pointer', fontSize: '0.9rem', fontWeight: '600', transition: 'all 0.2s',
+              background: activeTab === 'models' ? 'rgba(139, 92, 246, 0.15)' : 'transparent',
+              color: activeTab === 'models' ? '#c084fc' : '#94a3b8',
+              borderLeft: activeTab === 'models' ? '3px solid #8b5cf6' : '3px solid transparent'
+            }}
+          >
+            <Bot size={18} /> ML Model Lab
+          </button>
         </div>
 
         <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.06)', paddingTop: '1rem', marginTop: 'auto' }}>
@@ -392,12 +480,14 @@ export default function AdminChat() {
               {activeTab === 'appointments' && 'Medical Bookings Registry'}
               {activeTab === 'patients' && 'Registered Patients Directory'}
               {activeTab === 'chat' && 'Patient Live Support Queue'}
+              {activeTab === 'models' && 'ML Engine Model Lab'}
             </h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', margin: '4px 0 0' }}>
               {activeTab === 'overview' && 'Real-time telemetry of clinical reservations, Stripe earnings, and AI symptom logging.'}
               {activeTab === 'appointments' && 'Query, inspect, and audit all clinical checkups booked via the platform.'}
               {activeTab === 'patients' && 'View customer directories, registered contact emails, and aggregate visits.'}
               {activeTab === 'chat' && 'Manage real-time inquiry channels and text patients in need of support.'}
+              {activeTab === 'models' && 'Select, benchmark, and playground-test natural symptom classifiers in real-time.'}
             </p>
           </div>
 
@@ -863,9 +953,235 @@ export default function AdminChat() {
               )}
             </div>
             
+        {/* --- ML MODEL LAB TAB CONTENT --- */}
+        {activeTab === 'models' && (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            
+            {/* Active Model Stats Card */}
+            <div style={{
+              background: 'linear-gradient(135deg, rgba(6, 182, 212, 0.15) 0%, rgba(139, 92, 246, 0.1) 100%)',
+              border: '1px solid rgba(6, 182, 212, 0.25)',
+              borderRadius: '20px',
+              padding: '1.75rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              flexWrap: 'wrap',
+              gap: '1.5rem'
+            }}>
+              <div>
+                <span style={{ color: '#06b6d4', fontWeight: '700', textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em' }}>
+                  Currently Active Engine
+                </span>
+                <h2 style={{ fontSize: '1.8rem', marginTop: '0.25rem', marginBottom: '0.5rem', fontWeight: '800', color: 'white' }}>
+                  {modelInfo?.active_model || 'Loading...'}
+                </h2>
+                <p style={{ color: '#94a3b8', fontSize: '0.875rem', margin: 0 }}>
+                  This model is used by default for the public Symptom Checker.
+                </p>
+              </div>
+
+              {modelInfo && (
+                <div style={{ display: 'flex', gap: '2rem' }}>
+                  <div style={{ textAlign: 'center' }}>
+                    <p style={{ color: '#64748b', fontSize: '0.75rem', margin: '0 0 0.25rem 0', fontWeight: '600' }}>ACCURACY</p>
+                    <p style={{ color: '#10b981', fontSize: '1.5rem', margin: 0, fontWeight: '800' }}>
+                      {(modelInfo.accuracy * 100).toFixed(2)}%
+                    </p>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <p style={{ color: '#64748b', fontSize: '0.75rem', margin: '0 0 0.25rem 0', fontWeight: '600' }}>F1 SCORE</p>
+                    <p style={{ color: '#06b6d4', fontSize: '1.5rem', margin: 0, fontWeight: '800' }}>
+                      {(modelInfo.f1_score * 100).toFixed(2)}%
+                    </p>
+                  </div>
+                  <div style={{ textAlign: 'center' }}>
+                    <p style={{ color: '#64748b', fontSize: '0.75rem', margin: '0 0 0.25rem 0', fontWeight: '600' }}>VERSION</p>
+                    <p style={{ color: '#fbbf24', fontSize: '1.5rem', margin: 0, fontWeight: '800' }}>v{modelInfo.version || '1.0.0'}</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Main Lab Grid */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1.8fr 1.2fr', gap: '2rem' }} className="grid-2">
+              
+              {/* Left Column: Comparison Table */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div className="glass-card" style={{ padding: '1.5rem' }}>
+                  <h3 style={{ margin: '0 0 1rem 0', color: 'white', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <ListFilter size={20} color="var(--accent-secondary)" />
+                    Classifier Benchmark & Selection
+                  </h3>
+                  
+                  <div style={{ overflowX: 'auto' }}>
+                    <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                      <thead>
+                        <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                          <th style={{ padding: '0.75rem 1rem', color: '#64748b', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase' }}>Model Name</th>
+                          <th style={{ padding: '0.75rem 1rem', color: '#64748b', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', textAlign: 'center' }}>Accuracy</th>
+                          <th style={{ padding: '0.75rem 1rem', color: '#64748b', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', textAlign: 'center' }}>F1 Score</th>
+                          <th style={{ padding: '0.75rem 1rem', color: '#64748b', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', textAlign: 'center' }}>Train Time</th>
+                          <th style={{ padding: '0.75rem 1rem', color: '#64748b', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', textAlign: 'right' }}>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {modelInfo?.models?.map((m) => {
+                          const isActive = m.name === modelInfo.active_model;
+                          return (
+                            <tr key={m.name} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', background: isActive ? 'rgba(6, 182, 212, 0.03)' : 'transparent' }}>
+                              <td style={{ padding: '1rem', color: 'white', fontWeight: '600', fontSize: '0.85rem' }}>{m.name}</td>
+                              <td style={{ padding: '1rem', color: '#10b981', fontWeight: '700', fontSize: '0.85rem', textAlign: 'center' }}>{(m.accuracy * 100).toFixed(2)}%</td>
+                              <td style={{ padding: '1rem', color: '#06b6d4', fontWeight: '700', fontSize: '0.85rem', textAlign: 'center' }}>{(m.f1_score * 100).toFixed(2)}%</td>
+                              <td style={{ padding: '1rem', color: '#94a3b8', fontSize: '0.8rem', textAlign: 'center' }}>{(m.training_time || 0).toFixed(4)}s</td>
+                              <td style={{ padding: '1rem', textAlign: 'right' }}>
+                                {isActive ? (
+                                  <span style={{
+                                    background: 'rgba(16,185,129,0.15)', color: '#10b981', border: '1px solid rgba(16,185,129,0.3)', borderRadius: '20px', padding: '4px 10px', fontSize: '0.7rem', fontWeight: '700'
+                                  }}>Active</span>
+                                ) : (
+                                  <button
+                                    onClick={() => handleSelectModel(m.name)}
+                                    disabled={isSwitchingModel}
+                                    style={{
+                                      background: 'rgba(255, 255, 255, 0.05)', border: '1px solid rgba(255, 255, 255, 0.08)', borderRadius: '8px', padding: '4px 10px', color: 'white', fontSize: '0.75rem', cursor: 'pointer', fontWeight: '600', transition: 'all 0.2s'
+                                    }}
+                                    onMouseOver={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+                                    onMouseOut={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)'}
+                                  >
+                                    Activate
+                                  </button>
+                                )}
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Model Playground */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                <div className="glass-card" style={{ padding: '1.5rem' }}>
+                  <h3 style={{ margin: '0 0 1rem 0', color: 'white', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                    <Bot size={20} color="var(--accent-primary)" />
+                    Side-by-Side Model Testing
+                  </h3>
+                  
+                  <form onSubmit={handleTestModels} style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '1.5rem' }}>
+                    <div className="input-group" style={{ margin: 0 }}>
+                      <textarea
+                        className="input-field"
+                        placeholder="Type symptoms here to test (e.g. 'I have high fever, cold shivers and dry cough')"
+                        value={testSymptoms}
+                        onChange={(e) => setTestSymptoms(e.target.value)}
+                        required
+                        style={{ minHeight: '80px', fontSize: '0.85rem' }}
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      className="btn btn-primary"
+                      disabled={isTesting || !testSymptoms.trim()}
+                      style={{ padding: '0.6rem 1rem', fontSize: '0.85rem', width: '100%' }}
+                    >
+                      {isTesting ? 'Evaluating Models...' : 'Test Models Side-by-Side'}
+                    </button>
+                  </form>
+
+                  {testResults && (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                      <span style={{ fontSize: '0.75rem', fontWeight: '700', color: '#64748b', textTransform: 'uppercase' }}>Predictions</span>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', maxHeight: '250px', overflowY: 'auto', paddingRight: '4px' }}>
+                        {Object.entries(testResults).map(([mName, res]) => {
+                          const isActive = mName === modelInfo?.active_model;
+                          return (
+                            <div key={mName} style={{
+                              background: 'rgba(255,255,255,0.02)',
+                              border: isActive ? '1px solid rgba(6,182,212,0.3)' : '1px solid rgba(255,255,255,0.05)',
+                              borderRadius: '10px',
+                              padding: '0.75rem',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center'
+                            }}>
+                              <div style={{ maxWidth: '65%' }}>
+                                <p style={{ margin: 0, fontSize: '0.75rem', color: '#94a3b8', fontWeight: '600' }}>
+                                  {mName} {isActive && <span style={{ color: '#06b6d4', fontSize: '0.65rem' }}>[Active]</span>}
+                                </p>
+                                <p style={{ margin: '2px 0 0 0', color: 'white', fontWeight: '700', fontSize: '0.85rem' }}>
+                                  {res.disease}
+                                </p>
+                              </div>
+                              <span style={{
+                                background: 'rgba(139,92,246,0.1)', color: '#a78bfa', borderRadius: '6px', padding: '2px 6px', fontSize: '0.7rem', fontWeight: '600'
+                              }}>
+                                {res.specialist}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+            </div>
+
+            {/* Diagnostic Logs History */}
+            <div className="glass-card" style={{ padding: '1.5rem' }}>
+              <h3 style={{ margin: '0 0 1rem 0', color: 'white', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Activity size={20} color="var(--accent-secondary)" />
+                Recent Diagnosis Telemetry Logs
+              </h3>
+
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                      <th style={{ padding: '0.75rem 1rem', color: '#64748b', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase' }}>Timestamp</th>
+                      <th style={{ padding: '0.75rem 1rem', color: '#64748b', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase' }}>Symptoms Input</th>
+                      <th style={{ padding: '0.75rem 1rem', color: '#64748b', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase' }}>Predicted Condition</th>
+                      <th style={{ padding: '0.75rem 1rem', color: '#64748b', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase' }}>Specialist Assignee</th>
+                      <th style={{ padding: '0.75rem 1rem', color: '#64748b', fontSize: '0.75rem', fontWeight: '700', textTransform: 'uppercase', textAlign: 'center' }}>Lang</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {symptomLogs.length === 0 ? (
+                      <tr>
+                        <td colSpan="5" style={{ padding: '2rem', textAlign: 'center', color: '#64748b', fontSize: '0.85rem' }}>
+                          No recent logs recorded.
+                        </td>
+                      </tr>
+                    ) : symptomLogs.map((log) => (
+                      <tr key={log.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                        <td style={{ padding: '0.85rem 1rem', color: '#94a3b8', fontSize: '0.8rem', whiteSpace: 'nowrap' }}>
+                          {log.created_at ? new Date(log.created_at).toLocaleString() : 'N/A'}
+                        </td>
+                        <td style={{ padding: '0.85rem 1rem', color: '#e2e8f0', fontSize: '0.8rem', maxWidth: '300px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={log.symptoms}>
+                          {log.symptoms}
+                        </td>
+                        <td style={{ padding: '0.85rem 1rem', color: '#c084fc', fontWeight: '600', fontSize: '0.8rem' }}>
+                          {log.predicted_disease}
+                        </td>
+                        <td style={{ padding: '0.85rem 1rem', color: '#a78bfa', fontSize: '0.8rem' }}>
+                          {log.specialist}
+                        </td>
+                        <td style={{ padding: '0.85rem 1rem', color: '#94a3b8', fontSize: '0.8rem', textAlign: 'center' }}>
+                          {log.lang?.toUpperCase() || 'EN'}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
           </div>
         )}
-
       </div>
     </div>
   );

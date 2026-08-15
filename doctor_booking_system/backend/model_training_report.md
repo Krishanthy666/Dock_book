@@ -69,14 +69,14 @@ Six classifiers were built inside vectorization pipelines and trained on the tra
 
 | Model | Accuracy | Precision | Recall | F1 Score | Training Time |
 | --- | --- | --- | --- | --- | --- |
-| Logistic Regression | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.0325s |
-| Decision Tree | 0.9510 | 0.9568 | 0.9510 | 0.9512 | 0.0188s |
-| Random Forest | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.2335s |
-| Support Vector Machine | 0.9902 | 0.9910 | 0.9902 | 0.9901 | 0.1522s |
-| Naïve Bayes | 0.9902 | 0.9911 | 0.9902 | 0.9902 | 0.0079s |
-| K-Nearest Neighbors | 0.9706 | 0.9733 | 0.9706 | 0.9706 | 0.0065s |
-| Optimized Logistic Regression | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.0714s |
-| Voting Ensemble Model | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.4248s |
+| Logistic Regression | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.0718s |
+| Decision Tree | 0.9510 | 0.9568 | 0.9510 | 0.9512 | 0.0184s |
+| Random Forest | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.2855s |
+| Support Vector Machine | 0.9902 | 0.9910 | 0.9902 | 0.9901 | 0.1623s |
+| Naïve Bayes | 0.9902 | 0.9911 | 0.9902 | 0.9902 | 0.0125s |
+| K-Nearest Neighbors | 0.9706 | 0.9733 | 0.9706 | 0.9706 | 0.0076s |
+| Optimized Logistic Regression | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.1325s |
+| Voting Ensemble Model | 1.0000 | 1.0000 | 1.0000 | 1.0000 | 0.7499s |
 
 
 - **Best Performing Architecture**: `Logistic Regression`.

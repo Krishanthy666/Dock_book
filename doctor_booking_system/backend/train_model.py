@@ -196,19 +196,42 @@ def train_and_export():
     # Pick the best model based on F1 Score
     best_model_name = max(results, key=lambda k: results[k]['F1 Score'])
     print(f"Best Performing Model: {best_model_name}")
+
+    # Save all production models retrained on full dataset
+    trained_pipelines["Optimized Logistic Regression"] = grid_search.best_estimator_
     
-    # Train the chosen best architecture on full dataset to maximize live performance
-    print(f"Retraining best model ({best_model_name}) on full dataset for production export...")
+    for name, pipeline in trained_pipelines.items():
+        filename = f"symptom_model_{name.lower().replace(' ', '_').replace('ï', 'i').replace('-', '_')}.joblib"
+        print(f"Retraining {name} on full dataset for export...")
+        pipeline.fit(X, y)
+        joblib.dump(pipeline, filename)
+        print(f"Exported model to '{filename}'")
+
+    # Also save the default symptom_model.joblib for compatibility
     if best_model_name == "Optimized Logistic Regression":
-        final_model = grid_search.best_estimator_
+        joblib.dump(grid_search.best_estimator_, 'symptom_model.joblib')
     else:
-        final_model = trained_pipelines[best_model_name]
-    
-    final_model.fit(X, y)
-    
-    # Save the production model
-    joblib.dump(final_model, 'symptom_model.joblib')
-    print("Exported final model to 'symptom_model.joblib'")
+        joblib.dump(trained_pipelines[best_model_name], 'symptom_model.joblib')
+    print(f"Exported default/best model ({best_model_name}) to 'symptom_model.joblib'")
+
+    # Save model comparison data
+    comparison_data = {
+        "active_model": best_model_name,
+        "models": [
+            {
+                "name": name,
+                "accuracy": metrics["Accuracy"],
+                "precision": metrics["Precision"],
+                "recall": metrics["Recall"],
+                "f1_score": metrics["F1 Score"],
+                "training_time": metrics["Training Time (s)"]
+            }
+            for name, metrics in results.items()
+        ]
+    }
+    with open('model_comparison.json', 'w') as f:
+        json.dump(comparison_data, f, indent=4)
+    print("Saved model comparison to 'model_comparison.json'")
 
     # Construct and save disease mappings to preserve existing features
     disease_to_specialist = df_clean.set_index('disease')['specialist'].to_dict()
